@@ -1,0 +1,3 @@
+mkdocs
+mkdocs-mermaid2-plugin
+mkdocs-material 
