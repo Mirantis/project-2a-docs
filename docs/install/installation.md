@@ -64,7 +64,7 @@ export KUBECONFIG=<path-to-management-kubeconfig>
 kubectl get template -n hmc-system -o go-template='{{ range .items }}{{ if eq .status.type "deployment" }}{{ .metadata.name }}{{ printf "\n" }}{{ end }}{{ end }}'
 ```
 
-For details about the `Template system` in HMC, see [Templates system](../templates/main.md). 
+For details about the `Template system` in HMC, see [Templates system](../template/main.md). 
 
 If you want to deploy hostded control plate template, make sure to check additional notes on [Hosted control plane](../aws/hosted-control-plane.md).
 

@@ -25,6 +25,7 @@ theme:
         icon: material/brightness-4
         name: Switch to light mode
 
+  
   icon: assets/mirantis-logo-inverted-horizontal-one-color.svg
   logo: assets/mirantis-logo-inverted-horizontal-one-color.svg
   favicon: assets/favicon.ico
@@ -62,7 +63,7 @@ nav:
   - Installation:
       - Quick Start: install/quick-start.md
       - Installation Guide: install/installation.md
-      - Templates: templates/templates.md
+      - Templates: template/main.md
   - Developer Guide: dev.md
   - Provider Guides:
     - AWS: 
