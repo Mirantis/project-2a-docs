@@ -82,3 +82,5 @@ nav:
       - vsphere/cluster-parameters.md
       - vsphere/hosted-control-plane.md
       - vsphere/machine-parameters.md
+  - Contribution:
+    - Guide: contribution/main.md
