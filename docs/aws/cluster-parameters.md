@@ -3,8 +3,61 @@
 ## Software prerequisites
 
 1. `clusterawsadm` CLI installed locally.
-2. `AWS_B64ENCODED_CREDENTIALS` environment variable to be exported.
-See [AWS credentials](credentials.md#aws-credentials-configuration) (p. 1-3)
+
+## Cluster Identity
+
+To provide credentials for CAPI AWS provider (CAPA) `ClusterIdentity` object
+must be created.
+
+AWS provider supports 3 types of `ClusterIdentity`, which one to use depends on
+your specific use case. More information regarding CAPA `ClusterIdentity`
+resources could be found in [CRD Reference](https://cluster-api-aws.sigs.k8s.io/crd/)
+
+In this example we're using [`AWSClusterStaticIdentity`](https://cluster-api-aws.sigs.k8s.io/crd/#infrastructure.cluster.x-k8s.io/v1beta1.AWSClusterStaticIdentity).
+
+To create `ClusterIdentity` IAM user must be created and assigned with the
+following roles:
+
+- `control-plane.cluster-api-provider-aws.sigs.k8s.io`
+- `controllers.cluster-api-provider-aws.sigs.k8s.io`
+- `nodes.cluster-api-provider-aws.sigs.k8s.io`
+
+Follow the [IAM setup guide](cloudformation.md#aws-iam-setup) (if not already)
+to create these roles.
+
+Next the following secret should be created with the user's credentials:
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aws-cred-secret
+  namespace: hmc-system
+type: Opaque
+stringData:
+  AccessKeyID: "AAAEXAMPLE"
+  SecretAccessKey: "++AQDEXAMPLE"
+```
+
+> [!NOTE]
+> The secret must be created in the same `Namespace` where CAPA provider is
+> running. In case of Project 2A it's currently `hmc-system`. Placing secret in
+> any other `Namespace` will result controller not able to read it.
+
+After the `Secret` was created the `AWSClusterStaticIdentity` must be create
+like so:
+
+```yaml
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+kind: AWSClusterStaticIdentity
+metadata:
+  name: aws-cluster-identity
+spec:
+  secretRef: aws-cred-secret
+```
+
+To use these newly created credentials the `Credential` object must be
+created. It is described in detail in the [credential section](../credential/main.md).
 
 ## AWS AMI
 
@@ -13,7 +66,7 @@ will be used).
 
 You can override lookup parameters to search your desired image automatically or
 use AMI ID directly.
-If both AMI ID and lookup paramters are defined AMI ID will have higher precedence.
+If both AMI ID and lookup parameters are defined AMI ID will have higher precedence.
 
 ### Image lookup
 
@@ -72,6 +125,7 @@ metadata:
   name: cluster-1
 spec:
   template: aws-standalone-cp
+  credential: aws-cred
   config:
     sshKeyName: foobar
     bastion:

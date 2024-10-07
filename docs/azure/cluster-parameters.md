@@ -74,9 +74,9 @@ spec:
   type: ServicePrincipal
 ```
 
-These objects then should be referenced in the `ManagedCluster` object in the
-`.spec.config.clusterIdentity` field.
-
 Subscription ID which was used to create service principal should be the
 same that will be used in the `.spec.config.subscriptionID` field of the
 `ManagedCluster` object.
+
+To use `AzureClusterIdentity` it should be referenced in the `Credential`
+object. For more details check the [credential section](../credential/main.md).

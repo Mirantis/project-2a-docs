@@ -9,10 +9,6 @@
 
 Follow the AWS IAM [setup quide](cloudformation.md#aws-iam-setup).
 
-## Configure AWS credentials
-
-Follow the AWS Credentials [configuration quide](credentials.md#aws-credentials-configuration).
-
 ## AWS cluster parameters
 
 Follow the [AWS Cluster Parameters guide](cluster-parameters.md#aws-cluster-parameters)

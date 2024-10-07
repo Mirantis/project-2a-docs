@@ -35,7 +35,6 @@ apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: VSphereClusterIdentity
 metadata:
   name: vsphere-cluster-identity
-  namespace: hmc-system
 spec:
   secretName: vsphere-cluster-identity-secret
   allowedNamespaces:
@@ -43,9 +42,11 @@ spec:
       matchLabels: {}
 ```
 
-These objects then should be referenced in the `ManagedCluster` object in the
-`.spec.config.clusterIdentity` field.
+To be used for the cluster creation.`VsphereClusterIdentity` then should be
+referenced in the `Credential` object.
 
+For more details regarding the credential system check the [credential section](../credential/main.md)
+of the docs.
 
 ## ManagedCluster parameters
 
@@ -65,8 +66,6 @@ for successful cluster creation.
 | `.spec.config.vsphere.datastore`    | `/DC/datastore/DS`                    | Datastore path                     |
 | `.spec.config.vsphere.resourcePool` | `/DC/host/vCluster/Resources/ResPool` | Resource pool path                 |
 | `.spec.config.vsphere.folder`       | `/DC/vm/example`                      | vSphere folder path                |
-| `.spec.config.vsphere.username`     | `user`                                | Username for your vSphere instance |
-| `.spec.config.vsphere.password`     | `password`                            | Password for your vSphere instance |
 
 _You can check [machine parameters](machine-parameters.md) for machine specific
 parameters._
@@ -76,9 +75,6 @@ To obtain vSphere certificate thumbprint you can use the following command:
 ```bash
 curl -sw %{certs} https://vcenter.example.com | openssl x509 -sha256 -fingerprint -noout | awk -F '=' '{print $2}'
 ```
-
-Username and password currently must be passed once more in the `ManagedCluster`
-object to provide proper authentication for CCM and CSI driver.
 
 ## Example of ManagedCluster CR
 
@@ -91,6 +87,7 @@ metadata:
   name: cluster-1
 spec:
   template: vsphere-standalone-cp
+  credential: vsphere-credential
   config:
     clusterIdentity:
       name: vsphere-cluster-identity
@@ -101,8 +98,6 @@ spec:
       datastore: "/DC/datastore/DC"
       resourcePool: "/DC/host/vCluster/Resources/ResPool"
       folder: "/DC/vm/example"
-      username: "user"
-      password: "Passw0rd"
     controlPlaneEndpointIP: "172.16.0.10"
 
     controlPlane:
