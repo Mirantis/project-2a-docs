@@ -1,8 +1,10 @@
 ### Installation
 
-```
+```bash
 export KUBECONFIG=<path-to-management-kubeconfig>
+```
 
+```bash
 helm install hmc oci://ghcr.io/mirantis/hmc/charts/hmc --version <hmc-version> -n hmc-system --create-namespace
 ```
 
@@ -64,13 +66,14 @@ export KUBECONFIG=<path-to-management-kubeconfig>
 kubectl get template -n hmc-system -o go-template='{{ range .items }}{{ if eq .status.type "deployment" }}{{ .metadata.name }}{{ printf "\n" }}{{ end }}{{ end }}'
 ```
 
-For details about the `Template system` in HMC, see [Templates system](../template/main.md). 
+For details about the `Template system` in HMC, see [Templates system](../template/main.md).
 
 If you want to deploy hostded control plate template, make sure to check additional notes on [Hosted control plane](../aws/hosted-control-plane.md).
 
 2. Create the file with the `ManagedCluster` configuration:
 
-> Substitute the parameters enclosed in angle brackets with the corresponding values.\
+> NOTE:
+> Substitute the parameters enclosed in angle brackets with the corresponding values.
 > Enable the `dryRun` flag if required. For details, see [Dry run](#dry-run).
 
 ```yaml
@@ -92,13 +95,14 @@ spec:
 
 4. Check the status of the newly created `ManagedCluster` object:
 
-`kubectl -n <managedcluster-namespace> get managedcluster <managedcluster-name> -o=yaml`
+`kubectl -n <managedcluster-namespace> get managedcluster.hmc <managedcluster-name> -o=yaml`
 
 5. Wait for infrastructure to be provisioned and the cluster to be deployed (the provisioning starts only when
 `spec.dryRun` is disabled):
 
    `kubectl -n <managedcluster-namespace> get cluster <managedcluster-name> -o=yaml`
 
+> TIP:
 > You may also watch the process with the `clusterctl describe` command (requires the `clusterctl` CLI to be installed):
 > ```
 > clusterctl describe cluster <managedcluster-name> -n <managedcluster-namespace> --show-conditions all
@@ -200,10 +204,11 @@ spec:
 ## Cleanup
 
 1. Remove the Management object:
-  
+
 `kubectl delete management.hmc hmc`
 
-> Note: make sure you have no HMC ManagedCluster objects left in the cluster prior to Management deletion
+> NOTE:
+> Make sure you have no HMC ManagedCluster objects left in the cluster prior to Management deletion
 
 2. Remove the `hmc` Helm release:
 

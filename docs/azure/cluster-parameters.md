@@ -34,7 +34,8 @@ will look like this:
 }
 ```
 
-*Note: make sure to save this credentials and treat them like passwords.*
+> NOTE:
+> Make sure to save this credentials and treat them like passwords.
 
 With the data from the json you can now create the `AzureClusterIdentity` object
 and it's secret.

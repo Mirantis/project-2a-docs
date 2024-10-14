@@ -39,7 +39,7 @@ stringData:
   SecretAccessKey: "++AQDEXAMPLE"
 ```
 
-> [!NOTE]
+> NOTE:
 > The secret must be created in the same `Namespace` where CAPA provider is
 > running. In case of Project 2A it's currently `hmc-system`. Placing secret in
 > any other `Namespace` will result controller not able to read it.

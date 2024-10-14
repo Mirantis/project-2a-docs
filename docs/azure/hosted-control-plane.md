@@ -158,5 +158,6 @@ placed to finish cluster deletion.
 In case if have orphaned `AzureMachines` left you have to delete finalizers on
 them manually after making sure that no VMs are present in Azure.
 
-*Note: since Azure admission prohibits orphaned objects mutation you'll have to
-disable it by deleting it's `mutatingwebhookconfiguration`*
+> NOTE:
+> Since Azure admission prohibits orphaned objects mutation you'll have to disable
+> it by deleting it's `mutatingwebhookconfiguration`*

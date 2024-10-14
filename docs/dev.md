@@ -93,7 +93,7 @@ export KUBECONFIG=~/.kube/config
 ./bin/clusterctl describe cluster <managedcluster-name> -n hmc-system --show-conditions all
 ```
 
-> [!NOTE]
+> NOTE:
 > If you encounter any errors in the output of `clusterctl describe cluster` inspect the logs of the
 > `capa-controller-manager` with:
 > ```

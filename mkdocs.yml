@@ -42,8 +42,7 @@ theme:
     - navigation.tabs.sticky
     - navigation.footer
     - navigation.path
-
-    
+    - content.code.copy
 
 extra_css:
   - stylesheets/extra.css
@@ -57,6 +56,14 @@ plugins:
 
 # Page tree
 
+markdown_extensions:
+  - callouts
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
 nav:
   - Home: index.md
   - Introduction: introduction.md
@@ -64,12 +71,12 @@ nav:
       - Quick Start: install/quick-start.md
       - Installation Guide: install/installation.md
       - Templates: template/main.md
+      - Credential System: credential/main.md
   - Developer Guide: dev.md
   - Provider Guides:
     - AWS: 
       - aws/main.md
       - aws/cloudformation.md
-      - aws/credentials.md
       - aws/cluster-parameters.md
       - aws/hosted-control-plane.md
       - aws/nuke.md

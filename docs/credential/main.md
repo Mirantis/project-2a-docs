@@ -7,8 +7,8 @@ should be passed to it. The following describes how it is implemented in 2A.
 
 The following is the process of passing credentials to the system:
 
-1. Provider specific `ClusterIdentity` and `Secret` is created
-2. `Credential` object is created referencing `ClusterIdentity` from step 1.
+1. Provider specific `ClusterIdentity` and `Secret` are created
+2. `Credential` object is created referencing `ClusterIdentity` from step **1**.
 3. The `Credential` object is then referenced in the `ManagedCluster`.
 
 By design steps 1 and 2 should be executed by the platform lead engender who has
@@ -18,10 +18,10 @@ like `ClusterIndentity`.
 
 ## Credential object
 
-The `Credential` object acts like a reference to the underlying credentials. It is
-namespace-scoped, which means that it must be in the same `Namespace` with the
-`ManagedCluster` it is referenced in.
-Actual credentials can be located in any namespace.
+The `Credential` object acts like a reference to the underlying credentials. It
+is namespace-scoped, which means that it must be in the same `Namespace` with
+the `ManagedCluster` it is referenced in. Actual credentials can be located in
+any namespace.
 
 ### Example
 

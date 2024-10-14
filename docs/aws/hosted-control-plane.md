@@ -82,7 +82,7 @@ With all the collected data your `ManagedCluster` manifest will look similar to 
           - sg-0e000000000000000
 ```
 
-> [!NOTE]
+> NOTE:
 > In this example we're using the `us-west-1` region, but you should use the region of your VPC.
 
 ## HMC ManagedCluster manifest generation

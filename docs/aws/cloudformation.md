@@ -2,7 +2,8 @@
 
 Before launching a cluster on AWS, it's crucial to set up your AWS infrastructure provider:
 
-> Note. Skip steps below if you've already configured IAM policy for your account
+> NOTE:
+> Skip steps below if you've already configured IAM policy for your account
 
 1. In order to use clusterawsadm you must have an administrative user in an AWS account. Once you have that
    administrator user you need to set your environment variables:
