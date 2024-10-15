@@ -81,7 +81,7 @@ The `Template` should follow the rules mentioned below:
 1. `spec.type` should be `deployment` (as an alternative, the referenced helm chart may contain the
 `hmc.mirantis.com/type: deployment` annotation in `Chart.yaml`).
 2. `spec.providers` should contain the list of required Cluster API providers: `infrastructure`, `bootstrap` and
-`controlPlane`. As an alternative, the referenced helm chart may contain the specific annotations in the `Chart.yaml` (value is a list of providers divided by comma). These fields are only used for validation. For example:
+`controlPlane`. As an alternative, the referenced helm chart may contain the specific annotations in the `Chart.yaml` (value is a list of providers divided by semicolon). These fields are only used for validation. For example:
 
     `Template` spec:
 
@@ -101,7 +101,7 @@ The `Template` should follow the rules mentioned below:
     ```bash
     annotations:
       hmc.mirantis.com/infrastructure-providers: aws
-      hmc.mirantis.com/controlplane-providers: k0smotron
+      hmc.mirantis.com/control-plane-providers: k0s; k0smotron
       hmc.mirantis.com/bootstrap-providers: k0s
     ```
 
@@ -111,10 +111,19 @@ Each of the `*Template` resources has compatibility versions attributes, includi
 Both must be set in the Semantic Version format. Each attribute can be set either via the corresponding `.spec` fields or via the annotations.
 Values set via the `.spec` have precedence over the values set via the annotations.
 
+> NOTE:
+> All of the compatibility attributes are optional, and validation checks only take place
+> if **both** of the corresponding type attributes
+> (version and constraint, (e.g. `k8sVersion` and `k8sConstraint`)) are set.
+
 1. The `ProviderTemplate` resource has dedicated fields to set an exact compatible `CAPI` version along
-with exact compatibility versions for each of the `infrastructure`, `bootstrap`
-and `controlPlane` providers type.
+with the core `CAPI` version constraints, and exact compatibility versions for each
+of the `infrastructure`, `bootstrap` and `controlPlane` providers type.
 Given compatibility values will be then set accordingly in the `.status` field.
+
+    The exact `CAPI` version must be only set for the core `CAPI` `ProviderTemplate`,
+    and the `CAPI` constraint must be set for other `ProviderTemplate` objects. **The attributes
+    are mutually exclusive**.
 
     Example with the `.spec`:
 
@@ -123,30 +132,34 @@ Given compatibility values will be then set accordingly in the `.status` field.
     kind: ProviderTemplate
     # ...
     spec:
-      capiVersion: 1.7.3 # exact version must be set
+      # capiVersion makes sense only for the core CAPI template
+      # capiVersion: 1.7.3 # only exact version is applicable
+      capiVersionConstraint: ~1.7.0 # only version constraints are applicable
       providers:
         bootstrap:
         - name: k0s
-          versionOrConstraint: 1.0.0 # exact version must be set
+          versionOrConstraint: 1.0.0 # only exact version is applicable
         controlPlane:
         - name: k0smotron
-          versionOrConstraint: 1.34.0 # exact version must be set
+          versionOrConstraint: 1.34.0 # only exact version is applicable
         infrastructure:
         - name: aws
-          versionOrConstraint: 1.2.3 # exact version must be set
+          versionOrConstraint: 1.2.3 # only exact version is applicable
     ```
 
     Example with the `annotations` in the `Chart.yaml`:
 
     ```yaml
-    hmc.mirantis.com/capi-version: 1.7.3
-    hmc.mirantis.com/bootstrap-providers: k0s 1.0.0 # space-separated comma-separated list, e.g. k0s 1.0.0, k0s 1.0.1
-    hmc.mirantis.com/controlplane-providers: k0smotron 1.34.0 # space-separated comma-separated list, e.g. k0s 1.0.0, k0smotron 1.34.5
-    hmc.mirantis.com/infrastructure-providers: aws 1.2.3 # space-separated comma-separated list
+    # hmc.mirantis.com/capi-version makes sense only for the core CAPI template
+    # hmc.mirantis.com/capi-version: 1.7.3
+    hmc.mirantis.com/capi-version-constraint: ~1.7.0
+    hmc.mirantis.com/bootstrap-providers: k0s 1.0.0 # space-separated semicolon-separated list, e.g. k0s 1.0.0; k0s 1.0.1
+    hmc.mirantis.com/control-plane-providers: k0smotron 1.34.0 # space-separated semicolon-separated list, e.g. k0s 1.0.0; k0smotron 1.34.5
+    hmc.mirantis.com/infrastructure-providers: aws 1.2.3 # space-separated semicolon-separated list
     ```
 
 1. The `ClusterTemplate` resource has dedicated fields to set an exact compatible Kubernetes version
-along with compatibility constrainted versions for each of the `infrastructure`, `bootstrap`
+along with compatibility constrained versions for each of the `infrastructure`, `bootstrap`
 and `controlPlane` providers type to match against the related `ProviderTemplate` objects.
 Given compatibility values will be then set accordingly in the `.status` field.
 
@@ -157,29 +170,29 @@ Given compatibility values will be then set accordingly in the `.status` field.
     kind: ClusterTemplate
     # ...
     spec:
-      k8sVersion: 1.30.0 # exact version must be set
+      k8sVersion: 1.30.0 # only exact version is applicable
       providers:
         bootstrap:
         - name: k0s
-          versionOrConstraint: ">=1.0.0" # version constraints must be set
+          versionOrConstraint: ">=1.0.0" # only version constraints are applicable
         controlPlane:
         - name: k0smotron
-          versionOrConstraint: "^1.34.0" # version constraints must be set
+          versionOrConstraint: ">=1.34.0 <2.0.0-0" # only version constraints are applicable
         infrastructure:
         - name: aws
-          versionOrConstraint: "~1.2.3" # version constraints must be set
+          versionOrConstraint: "~1.2.3" # only version constraints are applicable
     ```
 
     Example with the `annotations` in the `Chart.yaml`:
 
     ```yaml
     hmc.mirantis.com/k8s-version: 1.30.0
-    hmc.mirantis.com/bootstrap-providers: k0s >=1.0.0 # space-separated comma-separated list
-    hmc.mirantis.com/controlplane-providers: k0smotron ^1.34.0 # space-separated comma-separated list, e.g. k0s >=1.0.0, k0smotron ~1.34.0
-    hmc.mirantis.com/infrastructure-providers: aws ~1.2.3 # space-separated comma-separated list
+    hmc.mirantis.com/bootstrap-providers: k0s >=1.0.0 # space-separated semicolon-separated list
+    hmc.mirantis.com/control-plane-providers: k0smotron >=1.34.0 <2.0.0-0 # space-separated semicolon-separated list, e.g. k0s >=1.0.0; k0smotron ~1.34.0
+    hmc.mirantis.com/infrastructure-providers: aws ~1.2.3 # space-separated semicolon-separated list
     ```
 
-1. The `ClusterTemplate` resource has dedicated fields to set an compatibility constrainted
+1. The `ServiceTemplate` resource has dedicated fields to set an compatibility constrained
 Kubernetes version to match against the related `ClusterTemplate` objects.
 Given compatibility values will be then set accordingly in the `.status` field.
 
@@ -190,7 +203,7 @@ Given compatibility values will be then set accordingly in the `.status` field.
     kind: ServiceTemplate
     # ...
     spec:
-      k8sConstraint: "^1.30.0" # version constraints must be set
+      k8sConstraint: "^1.30.0" # only version constraints are applicable
     ```
 
     Example with the `annotations` in the `Chart.yaml`:
@@ -201,15 +214,16 @@ Given compatibility values will be then set accordingly in the `.status` field.
 
 ### Compatibility attributes enforcement
 
-The aforedescribed attributes are being checked and enforced in the `validatingwebhook` sticking
-to the following rules:
+The aforedescribed attributes are being checked sticking to the following rules:
 
 * both the exact and constraint version of the same type (e.g. `k8sVersion` and `k8sConstraint`) must
 be set otherwise no check is performed;
-* if a `ProviderTemplate` object's exact providers versions do not satisfy the constraints
-from the related `ClusterTemplate` object, the updates to the `ManagedCluster` object will be blocked;
-* if a `ClusterTemplate` object's exact kubernetes version does not satisfy the constraint
-from the related `ServiceTemplate` object, the updates to the `ManagedCluster` object will be blocked.
+* if a `ProviderTemplate` object's exact providers versions do not satisfy the providers' versions
+constraints from the related `ClusterTemplate` object, the updates to the `ManagedCluster` object will be blocked;
+* if the core `CAPI` `ProviderTemplate` exact `CAPI` version does no satisfy the `CAPI` version
+constraints from other of `ProviderTemplate` objects, the to the `Management` object will be blocked;
+* if a `ClusterTemplate` object's exact kubernetes version does not satisfy the kubernetes version
+constraint from the related `ServiceTemplate` object, the updates to the `ManagedCluster` object will be blocked.
 
 ## Remove Templates shipped with HMC
 
