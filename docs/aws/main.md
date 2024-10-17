@@ -7,7 +7,7 @@
 
 ## Configure AWS IAM
 
-Follow the AWS IAM [setup quide](cloudformation.md#aws-iam-setup).
+Follow the AWS IAM [setup guide](cloudformation.md#aws-iam-setup).
 
 ## AWS cluster parameters
 
