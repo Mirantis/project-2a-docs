@@ -1,4 +1,4 @@
-# Project 2A MKdocs Setup
+# Project 0x2A MKdocs Setup
 
 ## Project layout
 
