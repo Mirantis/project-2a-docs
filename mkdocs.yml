@@ -1,4 +1,4 @@
-site_name: Project 2A
+site_name: Project 0x2A
 site_author: Mirantis
 docs_dir: ./docs
 repo_name: GitHub
@@ -68,27 +68,29 @@ markdown_extensions:
       toc_depth: 3
 nav:
   - Home: index.md
-  - Introduction: introduction.md
-  - Installation:
-      - Quick Start: install/quick-start.md
-      - Installation Guide: install/installation.md
-      - Templates: template/main.md
-      - Credential System: credential/main.md
-  - Developer Guide: dev.md
-  - Provider Guides:
-    - AWS: 
-      - aws/main.md
-      - aws/cloudformation.md
-      - aws/cluster-parameters.md
-      - aws/hosted-control-plane.md
-      - aws/nuke.md
-    - Azure: 
-      - azure/main.md
-      - azure/cluster-parameters.md
-      - azure/hosted-control-plane.md
-      - azure/machine-parameters.md
-    - vSphere: 
-      - vsphere/main.md
-      - vsphere/cluster-parameters.md
-      - vsphere/hosted-control-plane.md
-      - vsphere/machine-parameters.md
+  - Quick Start:
+    - 0x2A Installation: quick-start/2a-installation.md
+    - Azure: quick-start/azure.md
+    - AWS: quick-start/aws.md
+    - vSphere: quick-start/vsphere.md
+  - Usage:
+      - Installation Guide: usage/installation.md
+      - Create Managed Cluster: usage/create-managed-cluster.md
+      - Cluster Updates: usage/cluster-update.md
+  - Templates:
+      - Overview: template/main.md
+      - BYO Templates: template/byo-templates.md
+  - ClusterTemplates:
+      - Azure:
+        - Template Parameters: clustertemplates/azure/template-parameters.md
+        - Hosted Control Plane: clustertemplates/azure/hosted-control-plane.md
+      - AWS:
+        - Template Parameters: clustertemplates/aws/template-parameters.md
+        - Hosted Control Plane: clustertemplates/aws/hosted-control-plane.md
+      - vSphere:
+        - Template Parameters: clustertemplates/vsphere/template-parameters.md
+        - Hosted Control Plane: clustertemplates/vsphere/hosted-control-plane.md
+  - Credentials:
+      - Overview: credential/main.md
+  - Architecture: architecture.md
+  - Glossary: glossary.md

@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Mirantis Project 0x2A and is focused and developing a consistent way to deploy 
+Mirantis Project 0x2A is focused on developing a consistent way to deploy 
 and manage Kubernetes clusters at scale. More information can be found [here](./introduction.md).
 
 Project 0x2A was created to be a repeatable and secure way to leverage the existing
@@ -28,18 +28,20 @@ The main components of 0x2A include:
 
     Cluster and beach-head services monitoring, events and log management.
 
+## Quick Start
+
+See the [0x2A Quick Start Guide](quick-start/2a-installation.md)
+
 ## Supported Providers
 
 HMC leverages the Cluster API provider ecosystem, the following providers have 
 had templates created and validated, and more are in the works.
 
- * [AWS](./aws/main.md)
- * [Azure](./azure/main.md)
- * [Vsphere](./vsphere/main.md)
+ * [AWS](quick-start/aws.md)
+ * [Azure](quick-start/azure.md)
+ * [vSphere](quick-start/vsphere.md)
 
-## Project layout
+## Development documentation
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        
+Documentation releated to development process and dev-specific notes located in
+the [main repository](https://github.com/Mirantis/hmc/blob/main/docs/dev.md).
