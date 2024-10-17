@@ -85,7 +85,7 @@ nav:
       - azure/cluster-parameters.md
       - azure/hosted-control-plane.md
       - azure/machine-parameters.md
-    - Vsphere: 
+    - vSphere: 
       - vsphere/main.md
       - vsphere/cluster-parameters.md
       - vsphere/hosted-control-plane.md
