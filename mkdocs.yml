@@ -1,4 +1,4 @@
-site_name: Project 2A
+site_name: Project 0x2A
 site_author: Mirantis
 docs_dir: ./docs
 repo_name: GitHub
@@ -69,7 +69,7 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Quick Start:
-    - 2A Installation: quick-start/2a-installation.md
+    - 0x2A Installation: quick-start/2a-installation.md
     - Azure: quick-start/azure.md
     - AWS: quick-start/aws.md
     - vSphere: quick-start/vsphere.md

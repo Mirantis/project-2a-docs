@@ -1,20 +1,20 @@
-# Welcome to Mirantis Project 2A Docs
+# Welcome to Mirantis Project 0x2A Docs
 
 ## Introduction
 
-Mirantis Project 2A and is focused and developing a consistent way to deploy
-and manage Kubernetes clusters at scale.
+Mirantis Project 0x2A is focused on developing a consistent way to deploy 
+and manage Kubernetes clusters at scale. More information can be found [here](./introduction.md).
 
-Project 2A was created to be a repeatable and secure way to leverage the existing
+Project 0x2A was created to be a repeatable and secure way to leverage the existing
 Kubernetes ecosystem (e.g. Cluster API) while being able to provide for the range of
-unique use cases that exist within enterprise IT environments.
+unique use cases that exist within enterprise IT environments. 
 
 ## Main Premise
 
-2A is built around the creation of a set of standardised templates that enable
-easy, repeatable cluster deployments and life cycle management.
+0x2A is built around the creation of a set of standardised templates that enable 
+easy, repeatable cluster deployments and life cycle management. 
 
-The main components of 2A include:
+The main components of 0x2A include:
 
  * Hybrid Multi Cluster Management (HMC)
 
@@ -28,10 +28,9 @@ The main components of 2A include:
 
     Cluster and beach-head services monitoring, events and log management.
 
-
 ## Quick Start
 
-See the [2A Quick Start Guide](quick-start/2a-installation.md)
+See the [0x2A Quick Start Guide](quick-start/2a-installation.md)
 
 ## Supported Providers
 
@@ -41,7 +40,6 @@ had ProviderTemplates created and validated, and more are in the works.
  * [AWS](quick-start/aws.md)
  * [Azure](quick-start/azure.md)
  * [vSphere](quick-start/vsphere.md)
-
 
 ## Development documentation
 
