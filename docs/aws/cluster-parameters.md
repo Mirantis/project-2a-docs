@@ -3,8 +3,12 @@
 ## Software prerequisites
 
 1. `clusterawsadm` CLI installed locally.
+2. `kubectl` CLI installed locally
 
-## Cluster Identity
+## Cluster Identity 
+
+> NOTE:
+> Full details on the Credentials system can be found in the [Credential System Guide](/credential/main/)
 
 To provide credentials for CAPI AWS provider (CAPA) `ClusterIdentity` object
 must be created.
@@ -13,50 +17,94 @@ AWS provider supports 3 types of `ClusterIdentity`, which one to use depends on
 your specific use case. More information regarding CAPA `ClusterIdentity`
 resources could be found in [CRD Reference](https://cluster-api-aws.sigs.k8s.io/crd/).
 
-In this example we're using [`AWSClusterStaticIdentity`](https://cluster-api-aws.sigs.k8s.io/crd/#infrastructure.cluster.x-k8s.io/v1beta1.AWSClusterStaticIdentity).
+## AWS Cluster Static Identity Example
 
-To create `ClusterIdentity` IAM user must be created and assigned with the
-following roles:
+### Create AWS IAM User
+> In this example we're using [`AWSClusterStaticIdentity`](https://cluster-api-aws.sigs.k8s.io/crd/#infrastructure.cluster.x-k8s.io/v1beta1.AWSClusterStaticIdentity).
 
-- `control-plane.cluster-api-provider-aws.sigs.k8s.io`
-- `controllers.cluster-api-provider-aws.sigs.k8s.io`
-- `nodes.cluster-api-provider-aws.sigs.k8s.io`
+1. Create a AWS IAM user to use as service account
 
-Follow the [IAM setup guide](cloudformation.md#aws-iam-setup) (if not already)
+    A IAM user must be created and assigned the following roles:
+    > Follow the [IAM setup guide](cloudformation.md#aws-iam-setup) (if not already done)
 to create these roles.
 
-Next the following secret should be created with the user's credentials:
+    - `control-plane.cluster-api-provider-aws.sigs.k8s.io`
+    - `controllers.cluster-api-provider-aws.sigs.k8s.io`
+    - `nodes.cluster-api-provider-aws.sigs.k8s.io`
+  
 
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: aws-cred-secret
-  namespace: hmc-system
-type: Opaque
-stringData:
-  AccessKeyID: "AAAEXAMPLE"
-  SecretAccessKey: "++AQDEXAMPLE"
-```
+2. Create Access Keys for the IAM user
 
-> NOTE:
-> The secret must be created in the same `Namespace` where CAPA provider is
-> running. In case of Project 2A it's currently `hmc-system`. Placing secret in
-> any other `Namespace` will result controller not able to read it.
+    In the AWS IAM Console create the Access Keys for the IAM user and download them.
 
-After the `Secret` was created the `AWSClusterStaticIdentity` must be created:
+    You should have a `AccessKeyID` and a `SecretAccessKey` that looks like the following
+    ```
+    Access key ID,Secret access key
+    AKIAQF+EXAMPLE, EdJfFar6+example 
+    ```
 
-```yaml
-apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
-kind: AWSClusterStaticIdentity
-metadata:
-  name: aws-cluster-identity
-spec:
-  secretRef: aws-cred-secret
-```
+### Create the IAM Credentials on Kubernetes 
 
-To use these newly created credentials the `Credential` object must be
-created. It is described in detail in the [credential section](../credential/main.md).
+1. Next the following secret should be created with the user's credentials
+  
+    > The `name:` entry must be unique
+
+    ```yaml
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: aws-cluster-identity-secret
+      namespace: hmc-system
+    type: Opaque
+    stringData:
+      AccessKeyID: AKIAQF+EXAMPLE
+      SecretAccessKey: EdJfFar6+example
+    ```
+
+    > NOTE:
+    > The secret must be created in the same `Namespace` where CAPA provider is
+    > running. In case of Project 2A it's currently `hmc-system`. Placing secret in
+    > any other `Namespace` will result controller not able to read it.
+
+2. Then `AWSClusterStaticIdentity` must be created
+
+    > The `secretRef` must match the `name` of the secret that was created in the previous step
+
+    ```yaml
+    apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+    kind: AWSClusterStaticIdentity
+    metadata:
+      name: aws-cluster-identity
+      namespace: hmc-system
+    spec:
+      secretRef: aws-cluster-identity-secret
+      allowedNamespaces:
+        selector:
+          matchLabels: {}
+    ```
+
+3. Finally the `Credential` object needs to be created
+
+    In the `identityRef:` section the `kind:` must be `AWSClusterStaticIdentity` and the `name:` must match of the `AWSClusterStaticIdentity` object.
+
+    ```yaml
+    apiVersion: hmc.mirantis.com/v1alpha1
+    kind: Credential
+    metadata:
+      name: aws-cluster-identity-cred
+      namespace: hmc-system
+    spec:
+      description: "Credential Example"
+      identityRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+        kind: AWSClusterStaticIdentity
+        name: aws-cluster-identity
+        namespace: hmc-system
+    ```
+
+    > NOTE:
+    > To use these newly created credentials the `Credential` object must be
+    > created. It is described in detail in the [credential section](../credential/main.md).
 
 ## AWS AMI
 

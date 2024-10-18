@@ -1,4 +1,6 @@
-# Hosted control plane (k0smotron) deployment
+# AWS Hosted control plane deployment
+
+This section covers setting up for a K0smotron hosted control plane on AWS.
 
 ## Prerequisites
 

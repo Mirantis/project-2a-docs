@@ -1,6 +1,7 @@
 # AWS IAM setup
 
-Before launching a cluster on AWS, it's crucial to set up your AWS infrastructure provider:
+Before launching a cluster on AWS, you need to set up your AWS infrastructure with the 
+necessary IAM policies and service account(see cluster parameters for more). 
 
 > NOTE:
 > Skip steps below if you've already configured IAM policy for your account
