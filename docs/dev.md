@@ -23,6 +23,11 @@ make cli-install
 
 Follow the instruction to configure AWS Provider: [AWS Provider Setup](aws/main.md#prepare-the-aws-infra-provider)
 
+### EKS setup
+
+The same steps as for AWS are required.
+Additional steps and verifications are described in [EKS clusters](eks/main.md).
+
 ### Azure Provider Setup
 
 Follow the instruction on how to configure [Azure Provider](azure/main.md).
