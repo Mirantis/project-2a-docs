@@ -1,12 +1,17 @@
 # Templates system
 
-By default, Hybrid Container Cloud delivers a set of default `Template` objects. You can also build your own templates
-and use them for deployment.
+By default, 2A delivers a set of default `ProviderTemplate`, `ClusterTemplate` and `SystemTemplate` objects:
+* `ProviderTemplate`
+   The template containing the configuration of the provider, ex. k0smotron. Cluster-scoped.
+* `ClusterTemplate`
+   The template containing the configuration of the cluster objects. Namespace-scoped.
+* `ServiceTemplate`
+   The template containing the configuration of the service to be installed on the managed cluster. Namespace-scoped.
 
-## Custom deployment Templates
+All Templates are immutable. You can also build your own templates and use them for deployment along with the
+Templates shipped with 2A.
 
-> At the moment all `Templates` should reside in the `hmc-system` namespace. But they can be referenced
-> by `ManagedClusters` from any namespace.
+## Bring your own Templates
 
 Here are the instructions on how to bring your own Template to HMC:
 
@@ -14,11 +19,20 @@ Here are the instructions on how to bring your own Template to HMC:
 external Helm repository. Label it with `hmc.mirantis.com/managed: "true"`.
 2. Create a [HelmChart](https://fluxcd.io/flux/components/source/helmcharts/) object referencing the `HelmRepository` as a
 `sourceRef`, specifying the name and version of your Helm chart. Label it with `hmc.mirantis.com/managed: "true"`.
-3. Create a `Template` object in `hmc-system` namespace referencing this helm chart in `spec.helm.chartRef`.
-`chartRef` is a field of the
+3. Create a `ClusterTemplate`, `ServiceTemplate` or `ProviderTemplate` object referencing this helm chart in 
+`spec.helm.chartRef`. `chartRef` is a field of the
 [CrossNamespaceSourceReference](https://fluxcd.io/flux/components/helm/api/v2/#helm.toolkit.fluxcd.io/v2.CrossNamespaceSourceReference) kind.
+For `ClusterTemplate` and `ServiceTemplate` configure the namespace where this template should reside
+(`metadata.namespace`).
 
-Here is an example of a custom `Template` with the `HelmChart` reference:
+> NOTE:
+> `ClusterTemplate` and `ServiceTemplate` objects should reside in the same namespace as the `ManagedCluster`
+> referencing them. The `ManagedCluster` can't reference the Template from another namespace (the creation request will
+> be declined by the admission webhook). All `ClusterTemplates` and `ServiceTemplates` shipped with HMC reside in the
+> system namespace (defaults to `hmc-system`). To get the instructions on how to distribute Templates along multiple
+> namespaces, read [Template Life Cycle Management](template-management.md#template-life-cycle-management).
+
+Here is an example of a custom `ClusterTemplate` with the `HelmChart` reference:
 
 ```yaml
 apiVersion: source.toolkit.fluxcd.io/v1
@@ -56,7 +70,7 @@ spec:
 
 ```yaml
 apiVersion: hmc.mirantis.com/v1alpha1
-kind: Template
+kind: ClusterTemplate
 metadata:
   name: os-k0smotron
   namespace: hmc-system
@@ -76,14 +90,13 @@ spec:
       namespace: default
 ```
 
-The `Template` should follow the rules mentioned below:
+The `*Template` should follow the rules mentioned below:
 
-1. `spec.type` should be `deployment` (as an alternative, the referenced helm chart may contain the
-`hmc.mirantis.com/type: deployment` annotation in `Chart.yaml`).
-2. `spec.providers` should contain the list of required Cluster API providers: `infrastructure`, `bootstrap` and
-`controlPlane`. As an alternative, the referenced helm chart may contain the specific annotations in the `Chart.yaml` (value is a list of providers divided by semicolon). These fields are only used for validation. For example:
+1. `spec.providers` should contain the list of required Cluster API providers: `infrastructure`, `bootstrap` and
+`controlPlane`. As an alternative, the referenced helm chart may contain the specific annotations in the `Chart.yaml`
+(value is a list of providers divided by semicolon). These fields are only used for validation. For example:
 
-    `Template` spec:
+    `ClusterTemplate` spec:
 
     ```yaml
     spec:
@@ -227,26 +240,25 @@ constraint from the related `ServiceTemplate` object, the updates to the `Manage
 
 ## Remove Templates shipped with HMC
 
-If you need to limit the cluster templates that exist in your HMC installation, follow the instructions below:
+If you need to limit the templates that exist in your HMC installation, follow the instructions below:
 
-1. Get the list of `deployment` Templates shipped with HMC:
+1. Get the list of `ProviderTemplates`, `ClusterTemplates` or `ServiceTemplates` shipped with HMC. For example,
+for `ClusterTemplate` objects, run:
 
     ```bash
-    kubectl get templates -n hmc-system -l helm.toolkit.fluxcd.io/name=hmc-templates  | grep deployment
+    kubectl get clustertemplates -n hmc-system -l helm.toolkit.fluxcd.io/name=hmc-templates
     ```
 
     Example output:
 
     ```bash
-    aws-hosted-cp              deployment   true
-    aws-standalone-cp          deployment   true
+    NAME                       VALID
+    aws-hosted-cp              true
+    aws-standalone-cp          true
     ```
 
-2. Remove the templates from the list:
+2. Remove the template from the list using `kubectl delete`. For example:
 
     ```bash
-    kubectl delete template -n hmc-system <template-name>
+    kubectl delete clustertemplate -n hmc-system <template-name>
     ```
-<!---
-TODO: document `--create-template=false` controller flag once the templates are limited to deployment templates only.
--->
