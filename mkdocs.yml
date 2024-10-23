@@ -72,7 +72,6 @@ nav:
       - Installation Guide: install/installation.md
       - Templates: template/main.md
       - Credential System: credential/main.md
-  - Developer Guide: dev.md
   - Provider Guides:
     - AWS: 
       - aws/main.md

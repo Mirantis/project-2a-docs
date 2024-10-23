@@ -43,3 +43,7 @@ had templates created and validated, and more are in the works.
     docs/
         index.md  # The documentation homepage.
         
+## Development documentation
+
+Documentation releated to development process and dev-specific notes located in
+the [main repository](https://github.com/Mirantis/hmc/blob/main/docs/dev.md).
