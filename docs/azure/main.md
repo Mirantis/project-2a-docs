@@ -1,35 +1,9 @@
-# Azure provider
+# Installation methods
 
-## Prerequisites
+To begin, choose one of the following guides based on your setup:
 
-1. `kubectl` CLI installed locally.
-2. `az` CLI utility installed (part of `azure-cli`).
-3. Azure account with the required resource providers registered.
+- [Quick Start Guide](./quick-start.md)  
+  Follow the Quick Start Guide to rapidly deploy your Kubernetes clusters with minimal configuration.
 
-## Resource providers registration
-
-The following resource providers should be registered in your Azure account:
-
-- `Microsoft.Compute`
-- `Microsoft.Network`
-- `Microsoft.ContainerService`
-- `Microsoft.ManagedIdentity`
-- `Microsoft.Authorization`
-
-You can follow the [official documentation guide](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types)
-to register the providers.
-
-## Azure cluster parameters
-
-Follow the [Azure cluster parameters](cluster-parameters.md) guide to setup
-mandatory parameters for Azure clusters.
-
-## Azure machine parameters
-
-Follow the [Azure machine parameters](machine-parameters.md) guide if you want to
-setup/modify the default machine parameters.
-
-## Azure hosted control plane
-
-Follow the [Hosted control plane](hosted-control-plane.md) guide to deploy
-hosted control plane cluster on Azure.
+- [Hosted Control Plane (K0smotron) Guide](./hosted-control-plane.md)  
+  Refer to the Hosted Control Plane (K0smotron) Guide for detailed instructions on setting up a hosted control plane.

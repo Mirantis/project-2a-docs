@@ -82,6 +82,7 @@ nav:
       - aws/nuke.md
     - Azure: 
       - azure/main.md
+      - azure/quick-start.md
       - azure/cluster-parameters.md
       - azure/hosted-control-plane.md
       - azure/machine-parameters.md
