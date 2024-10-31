@@ -85,9 +85,6 @@ spec:
       nodeSubnetName: mgmt-cluster-node-subnet
       routeTableName: mgmt-cluster-node-routetable
       securityGroupName: mgmt-cluster-node-nsg
-    tenantID: 7db9e0f2-c88a-4116-a373-9c8b6cc9d5eb
-    clientID: 471f65fa-ddee-40b4-90ae-da1a8a114ee1
-    clientSecret: "u_RANDOM"
 ```
 
 To simplify creation of the ManagedCluster object you can use the template below:
@@ -110,9 +107,6 @@ spec:
       nodeSubnetName: "{{(index .spec.networkSpec.subnets 1).name}}"
       routeTableName: "{{(index .spec.networkSpec.subnets 1).routeTable.name}}"
       securityGroupName: "{{(index .spec.networkSpec.subnets 1).securityGroup.name}}"
-    tenantID: 7db9e0f2-c88a-4116-a373-9c8b6cc9d5eb
-    clientID: 471f65fa-ddee-40b4-90ae-da1a8a114ee1
-    clientSecret: "u_RANDOM"
 ```
 
 Then you can render it using the command:

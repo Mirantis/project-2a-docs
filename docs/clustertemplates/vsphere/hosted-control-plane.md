@@ -14,13 +14,13 @@ reside in the management cluster.
 Hosted CP template has mostly identical parameters with standalone CP, you can
 check them in the [template parameters](template-parameters.md) section.
 
-**Important note on control plane endpoint IP**
-
-Since vSphere provider requires that user will provide control plane endpoint IP
-before deploying the cluster you should make sure that this IP will be the same
-that will be assigned to the k0smotron LB service. Thus you must provide control
-plane endpoint IP to the k0smotron service via annotation which is accepted by
-your LB provider (in the following example `kube-vip` annotation is used)
+> NOTE: **Important note on control plane endpoint IP**
+> Since vSphere provider requires that user will provide control plane endpoint
+> IP before deploying the cluster you should make sure that this IP will be the
+> same that will be assigned to the k0smotron LB service. Thus you must provide
+> control plane endpoint IP to the k0smotron service via annotation which is
+> accepted by your LB provider (in the following example `kube-vip` annotation
+> is used)
 
 ```yaml
 apiVersion: hmc.mirantis.com/v1alpha1
@@ -31,8 +31,6 @@ spec:
   template: vsphere-hosted-cp-0-0-2
   credential: vsphere-credential
   config:
-    clusterIdentity:
-      name: vsphere-cluster-identity
     vsphere:
       server: vcenter.example.com
       thumbprint: "00:00:00"
@@ -40,10 +38,7 @@ spec:
       datastore: "/DC/datastore/DC"
       resourcePool: "/DC/host/vCluster/Resources/ResPool"
       folder: "/DC/vm/example"
-      username: "user"
-      password: "Passw0rd"
     controlPlaneEndpointIP: "172.16.0.10"
-
     ssh:
       user: ubuntu
       publicKey: |
@@ -53,7 +48,6 @@ spec:
     memory: 4096
     vmTemplate: "/DC/vm/template"
     network: "/DC/network/Net"
-
     k0smotron:
       service:
         annotations:

@@ -4,17 +4,20 @@
 
 ### Software prerequisites
 
-Before we begin, deploying Kubernetes clusters on Azure using Project 2A, make sure you have:
+Before we begin, deploying Kubernetes clusters on Azure using Project 2A, make
+sure you have:
 
-- Azure CLI (`az`): The `az` CLI is required to interact with Azure resources. Install it by
-following the [Azure CLI installation instructions](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli).
+- Azure CLI (`az`): The `az` CLI is required to interact with Azure
+resources. Install it by following the [Azure CLI installation
+instructions](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli).
 
    Run the `az login` command to authenticate your session with Azure.
 
 ### Register resource providers
 
-If you're using a brand new subscription that has never been used to deploy 2A or CAPI clusters,
-register these services ensure the following resource providers are registered:
+If you're using a brand new subscription that has never been used to deploy 2A
+or CAPI clusters, register these services ensure the following resource
+providers are registered:
 
 - `Microsoft.Compute`
 - `Microsoft.Network`
@@ -22,7 +25,8 @@ register these services ensure the following resource providers are registered:
 - `Microsoft.ManagedIdentity`
 - `Microsoft.Authorization`
 
-To register these providers, you can run the following commands in the Azure CLI:
+To register these providers, you can run the following commands in the Azure
+CLI:
 
 ```bash
 az provider register --namespace Microsoft.Compute
@@ -61,9 +65,11 @@ Copy your chosen Subscription ID for the next step.
 
 ## Step 2: Create a Service Principal (SP)
 
-The Service Principal is like a password-protected user that CAPZ will use to manage resources on Azure.
+The Service Principal is like a password-protected user that CAPZ will use to
+manage resources on Azure.
 
-In your terminal, run the following command. Make sure to replace <Subscription ID> with the ID you copied earlier:
+In your terminal, run the following command. Make sure to replace <Subscription
+ID> with the ID you copied earlier:
 
 ```bash
 az ad sp create-for-rbac --role contributor --scopes="/subscriptions/<Subscription ID>"
@@ -110,7 +116,8 @@ kubectl apply -f azure-cluster-identity-secret.yaml
 
 This object defines the credentials CAPZ will use to manage Azure resources.
 
-Save the AzureClusterIdentity YAML into a file named `azure-cluster-identity.yaml`:
+Save the AzureClusterIdentity YAML into a file named
+`azure-cluster-identity.yaml`:
 
 ```yaml
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
@@ -138,9 +145,12 @@ Apply the YAML to your cluster:
 
 ## Step 5: Create the 2A Credential Object
 
-Create a YAML with the specificaion of our credential and safe it as `azure-cluster-identity-cred.yaml`
+Create a YAML with the specificaion of our credential and safe it as
+`azure-cluster-identity-cred.yaml`
 
-> The `kind:` must be `AzureClusterIdentity` and the `name:` must match of the `AzureClusterIdentity` object.
+> NOTE:
+> The `kind:` must be `AzureClusterIdentity` and the `name:` must match of the
+> `AzureClusterIdentity` object.
 
 ```yaml
 apiVersion: hmc.mirantis.com/v1alpha1
@@ -164,7 +174,8 @@ kubectl apply -f aws-cluster-identity-cred.yaml
 
 ## Step 6: Create the first managedCluster
 
-Create a YAML with the specificaion of your managed Cluster and safe it as `my-azure-managedcluster1.yaml`
+Create a YAML with the specificaion of your managed Cluster and safe it as
+`my-azure-managedcluster1.yaml`
 
 ```yaml
 apiVersion: hmc.mirantis.com/v1alpha1
@@ -173,7 +184,7 @@ metadata:
   name: my-azure-managedcluster1
   namespace: hmc-system
 spec:
-  template: azure-standalone-cp-0-0-2
+  template: azure-standalone-cp-0-0-3
   credential: azure-cluster-identity-cred
   config:
     location: "westus" # Select your desired Azure Location (find it via `az account list-locations -o table`)

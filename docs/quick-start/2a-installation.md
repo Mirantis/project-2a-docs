@@ -1,9 +1,11 @@
 
 ### Requirements
 
-2A requires a k8s cluster, it can be of any type, it will become the 2A management cluster.
+2A requires a k8s cluster, it can be of any type, it will become the 2A
+management cluster.
 
-If you don't have a k8s cluster yet, we suggest to use [k0s](https://docs.k0sproject.io/stable/install/).
+If you don't have a k8s cluster yet, we suggest to use
+[k0s](https://docs.k0sproject.io/stable/install/).
 
 The below commands assume:
 
@@ -19,9 +21,11 @@ helm install hmc oci://ghcr.io/mirantis/hmc/charts/hmc --version 0.0.3 -n hmc-sy
 
 ### Verification
 
-The installation will take a couple of minutes until 2A and its subcomponents is fully installed and configured.
+The installation will take a couple of minutes until 2A and its subcomponents is
+fully installed and configured.
 
-You can verify the successfull installation with checking all the pods in the `hmc-system` namespace, the output should rougly look like:
+You can verify the successfull installation with checking all the pods in the
+`hmc-system` namespace, the output should rougly look like:
 
 ```bash
 kubectl -n hmc-system get pods -n hmc-system
@@ -46,7 +50,8 @@ source-controller-5f648d6f5d-7mhz5                             1/1     Running
 
 If you have less pods, give 2A a little longer to reconcile all the pods.
 
-As a second verification, check that the example ClusterTemplates have been installed and are valid:
+As a second verification, check that the example ClusterTemplates have been
+installed and are valid:
 
 ```bash
 
@@ -71,4 +76,5 @@ vsphere-standalone-cp-0-0-2         true
 
 ### Next Step
 
-Now you can start to configure our Infra Provider of choice and create the first Managed Cluster.
+Now you can start to configure our Infra Provider of choice and create the first
+Managed Cluster.

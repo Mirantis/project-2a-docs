@@ -25,7 +25,8 @@ to get more information on CSI specific permissions.
 
 ### Image template
 
-You can use pre-buit image templates from [CAPV project](https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/blob/main/README.md#kubernetes-versions-with-published-ovas)
+You can use pre-buit image templates from
+[CAPV project](https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/blob/main/README.md#kubernetes-versions-with-published-ovas)
 or build your own.
 
 When building your own image make sure that vmware tools and cloud-init are
@@ -60,7 +61,7 @@ metadata:
   namespace: hmc-system
 stringData:
   username: <user>
-  password: <Passw0rd>
+  password: <password>
 type: Opaque
 ```
 
@@ -74,14 +75,14 @@ kubectl apply -f vsphere-cluster-identity-secret.yaml
 
 This object defines the credentials CAPV will use to manage vSphere resources.
 
-Save the VSphereClusterIdentity YAML into a file named `vsphere-cluster-identity.yaml`:
+Save the VSphereClusterIdentity YAML into a file named
+`vsphere-cluster-identity.yaml`:
 
 ```yaml
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: VSphereClusterIdentity
 metadata:
   name: vsphere-cluster-identity
-  namespace: hmc-system
 spec:
   secretName: vsphere-cluster-identity-secret
   allowedNamespaces:
@@ -97,9 +98,12 @@ Apply the YAML to your cluster:
 
 ## Step 3: Create the 2A Credential Object
 
-Create a YAML with the specificaion of our credential and safe it as `vsphere-cluster-identity-cred.yaml`
+Create a YAML with the specificaion of our credential and safe it as
+`vsphere-cluster-identity-cred.yaml`
 
-> The `kind:` must be `VSphereClusterIdentity` and the `name:` must match of the `VSphereClusterIdentity` object.
+> NOTE:
+> The `kind:` must be `VSphereClusterIdentity` and the `name:` must match of the
+> `VSphereClusterIdentity` object.
 
 ```yaml
 apiVersion: hmc.mirantis.com/v1alpha1
@@ -112,7 +116,6 @@ spec:
     apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
     kind: VSphereClusterIdentity
     name: vsphere-cluster-identity
-    namespace: hmc-system
 ```
 
 Apply the YAML to your cluster:
@@ -123,7 +126,8 @@ kubectl apply -f aws-cluster-identity-cred.yaml
 
 ## Step 4: Create the first managedCluster
 
-Create a YAML with the specificaion of your managed Cluster and safe it as `my-vsphere-managedcluster1.yaml`
+Create a YAML with the specificaion of your managed Cluster and safe it as
+`my-vsphere-managedcluster1.yaml`
 
 ```yaml
 apiVersion: hmc.mirantis.com/v1alpha1
@@ -142,17 +146,13 @@ spec:
       datastore: <VSPHERE_DATASTORE>
       resourcePool: <VSPHERE_RESOURCEPOOL>
       folder: <VSPHERE_FOLDER>
-      username: <VSPHERE_USER>
-      password: <VSPHERE_PASSWORD>
     controlPlaneEndpointIP: <VSPHERE_CONTROL_PLANE_ENDPOINT>
-
     controlPlane:
       ssh:
         user: ubuntu
         publicKey: <VSPHERE_SSH_KEY>
       vmTemplate: <VSPHERE_VM_TEMPLATE>
       network: <VSPHERE_NETWORK>
-
     worker:
       ssh:
         user: ubuntu
@@ -161,7 +161,9 @@ spec:
       network: <VSPHERE_NETWORK>
 ```
 
-> For more information about the config options, see the [vSphere Template Parameters](../clustertemplates/vsphere/template-parameters.md).
+> NOTE:
+> For more information about the config options, see the
+> [vSphere Template Parameters](../clustertemplates/vsphere/template-parameters.md).
 
 Follow along the creation of the cluster
 

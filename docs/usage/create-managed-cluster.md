@@ -1,60 +1,72 @@
 To deploy a managed cluster:
 
-1. Select the `Template` you want to use for the deployment. To list all available templates, run:
+1. Create `Credential` object with all credentials required.
+   > NOTE:
+   > See [Credential system docs](https://mirantis.github.io/project-2a-docs/credential/main)
+   > for more information regarding this object.
 
-```bash
-export KUBECONFIG=<path-to-management-kubeconfig>
+2. Select the `Template` you want to use for the deployment. To list all
+   available templates, run:
 
-kubectl get template -n hmc-system -o go-template='{{ range .items }}{{ if eq .status.type "deployment" }}{{ .metadata.name }}{{ printf "\n" }}{{ end }}{{ end }}'
-```
+     ```bash
+     export KUBECONFIG=<path-to-management-kubeconfig>
 
-For details about the `Template system` in HMC, see [Templates system](../template/main.md).
+     kubectl get clustertemplate -n hmc-system
+     ```
 
-If you want to deploy hostded control plate template, make sure to check additional notes on Hosted control plane for each of the clustertemplate sections.
+	> NOTE:
+	> For details about the `Template system` in HMC, see [Templates system](../template/main.md).
 
-2. Create the file with the `ManagedCluster` configuration:
+	> NOTE:
+	> If you want to deploy hostded control plate template, make sure to check
+    > additional notes on Hosted control plane for each of the clustertemplate
+    > sections.
 
-> NOTE:
-> Substitute the parameters enclosed in angle brackets with the corresponding values.
-> Enable the `dryRun` flag if required. For details, see [Dry run](#dry-run).
+3. Create the file with the `ManagedCluster` configuration:
 
-```yaml
-apiVersion: hmc.mirantis.com/v1alpha1
-kind: ManagedCluster
-metadata:
-  name: <cluster-name>
-  namespace: <cluster-namespace>
-spec:
-  template: <template-name>
-  dryRun: <true/false>
-  config:
-    <cluster-configuration>
-```
+    > NOTE:
+    > Substitute the parameters enclosed in angle brackets with the corresponding
+    > values.  Enable the `dryRun` flag if required. For details, see
+    > [Dry run](#dry-run).
 
-3. Create the `ManagedCluster` object:
+    ```yaml
+    apiVersion: hmc.mirantis.com/v1alpha1
+    kind: ManagedCluster
+    metadata:
+      name: <cluster-name>
+      namespace: <cluster-namespace>
+    spec:
+      template: <template-name>
+      credential: <credential-name>
+      dryRun: <true/false>
+      config:
+        <cluster-configuration>
+    ```
 
-`kubectl create -f managedcluster.yaml`
+4. Create the `ManagedCluster` object:
 
-4. Check the status of the newly created `ManagedCluster` object:
+	`kubectl create -f managedcluster.yaml`
 
-`kubectl -n <managedcluster-namespace> get managedcluster.hmc <managedcluster-name> -o=yaml`
+5. Check the status of the newly created `ManagedCluster` object:
 
-5. Wait for infrastructure to be provisioned and the cluster to be deployed (the provisioning starts only when
-`spec.dryRun` is disabled):
+	`kubectl -n <managedcluster-namespace> get managedcluster.hmc <managedcluster-name> -o=yaml`
 
-   `kubectl -n <managedcluster-namespace> get cluster <managedcluster-name> -o=yaml`
+6. Wait for infrastructure to be provisioned and the cluster to be deployed (the
+provisioning starts only when `spec.dryRun` is disabled):
 
-> TIP:
-> You may also watch the process with the `clusterctl describe` command (requires the `clusterctl` CLI to be installed):
-> ```
-> clusterctl describe cluster <managedcluster-name> -n <managedcluster-namespace> --show-conditions all
-> ```
+	`kubectl -n <managedcluster-namespace> get cluster <managedcluster-name> -o=yaml`
 
-6. Retrieve the `kubeconfig` of your managed cluster:
+    > TIP:
+	> You may also watch the process with the `clusterctl describe` command
+    > (requires the `clusterctl` CLI to be installed): ``` clusterctl describe
+    > cluster <managedcluster-name> -n <managedcluster-namespace>
+    > --show-conditions all ```
 
-```
-kubectl get secret -n hmc-system <managedcluster-name>-kubeconfig -o=jsonpath={.data.value} | base64 -d > kubeconfig
-```
+7. Retrieve the `kubeconfig` of your managed cluster:
+
+    ```
+    kubectl get secret -n hmc-system <managedcluster-name>-kubeconfig -o=jsonpath={.data.value} | base64 -d > kubeconfig
+    ```
 
 ### Dry run
 
@@ -81,7 +93,6 @@ spec:
         cidrBlocks:
         - 10.96.0.0/12
     controlPlane:
-      amiID: ""
       iamInstanceProfile: control-plane.cluster-api-provider-aws.sigs.k8s.io
       instanceType: ""
     controlPlaneNumber: 3
@@ -95,7 +106,8 @@ spec:
       iamInstanceProfile: nodes.cluster-api-provider-aws.sigs.k8s.io
       instanceType: ""
     workersNumber: 2
-  template: aws-standalone-cp
+  template: aws-standalone-cp-0-0-2
+  credential: aws-credential
   dryRun: true
 ```
 
@@ -112,16 +124,15 @@ metadata:
   namespace: aws
 spec:
   template: aws-standalone-cp
+  credential: aws-credential
   config:
     region: us-east-2
     publicIP: true
     controlPlaneNumber: 1
     workersNumber: 1
     controlPlane:
-      amiID: ami-02f3416038bdb17fb
       instanceType: t3.small
     worker:
-      amiID: ami-02f3416038bdb17fb
       instanceType: t3.small
   status:
     conditions:
@@ -147,15 +158,15 @@ spec:
 
 1. Remove the Management object:
 
-`kubectl delete management.hmc hmc`
+	`kubectl delete management.hmc hmc`
 
-> NOTE:
-> Make sure you have no HMC ManagedCluster objects left in the cluster prior to Management deletion
+    > NOTE:
+    > Make sure you have no HMC ManagedCluster objects left in the cluster prior to Management deletion
 
 2. Remove the `hmc` Helm release:
 
-`helm uninstall hmc -n hmc-system`
+	`helm uninstall hmc -n hmc-system`
 
 3. Remove the `hmc-system` namespace:
 
-`kubectl delete ns hmc-system`
+	`kubectl delete ns hmc-system`

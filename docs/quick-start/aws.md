@@ -8,19 +8,21 @@ You need an k8s cluster with [2A installed](2a-installation.md).
 
 ## Software prerequisites
 
-- AWS clusterawsadm (`clusterawsadm`): The `clusterawsadm` CLI is required to bootstrap an AWS Account. Install it by
-following the [AWS clusterawsadm installation instructions](https://github.com/kubernetes-sigs/cluster-api-provider-aws?tab=readme-ov-file#clusterawsadm).
+- AWS clusterawsadm (`clusterawsadm`): The `clusterawsadm` CLI is required to
+bootstrap an AWS Account. Install it by following the
+[AWS clusterawsadm installation instructions](https://github.com/kubernetes-sigs/cluster-api-provider-aws?tab=readme-ov-file#clusterawsadm).
 
 ## Configure AWS IAM
 
-Before launching a cluster on AWS, you need to set up your AWS infrastructure with the
-necessary IAM policies and service account.
+Before launching a cluster on AWS, you need to set up your AWS infrastructure
+with the necessary IAM policies and service account.
 
 > NOTE:
 > Skip steps below if you've already configured IAM policy for your AWS account
 
-1. In order to use clusterawsadm you must have an administrative user in an AWS account. Once you have that
-   administrator user you need to set your environment variables:
+1. In order to use clusterawsadm you must have an administrative user in an AWS
+   account. Once you have that administrator user you need to set your
+   environment variables:
 
 ```
 export AWS_REGION=<aws-region>
@@ -47,9 +49,12 @@ clusterawsadm bootstrap iam create-cloudformation-stack
 
 2. Create Access Keys for the IAM user
 
-    In the AWS IAM Console create the Access Keys for the IAM user and download them.
+    In the AWS IAM Console create the Access Keys for the IAM user and download
+    them.
 
-    You should have a `AccessKeyID` and a `SecretAccessKey` that looks like the following
+    You should have a `AccessKeyID` and a `SecretAccessKey` that looks like the
+    following:
+
     ```
     Access key ID,Secret access key
     AKIAQF+EXAMPLE, EdJfFar6+example
@@ -86,14 +91,15 @@ kubectl apply -f aws-cluster-identity-secret.yaml
 
 Save the AzureClusterIdentity YAML into a file named `aws-cluster-identity.yaml`:
 
-> The `secretRef` must match the `name` of the secret that was created in the previous step
+> NOTE:
+> The `secretRef` must match the `name` of the secret that was created in the
+> previous step
 
 ```yaml
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
 kind: AWSClusterStaticIdentity
 metadata:
   name: aws-cluster-identity
-  namespace: hmc-system
 spec:
   secretRef: aws-cluster-identity-secret
   allowedNamespaces:
@@ -110,9 +116,12 @@ kubectl apply -f aws-cluster-identity.yaml
 ## Step 4: Create the 2A Credential Object
 
 
-Create a YAML with the specificaion of our credential and safe it as `aws-cluster-identity-cred.yaml`
+Create a YAML with the specificaion of our credential and safe it as
+`aws-cluster-identity-cred.yaml`
 
-> The `kind:` must be `AWSClusterStaticIdentity` and the `name:` must match of the `AWSClusterStaticIdentity` object.
+> NOTE:
+> The `kind:` must be `AWSClusterStaticIdentity` and the `name:` must match of
+> the `AWSClusterStaticIdentity` object.
 
 ```yaml
 apiVersion: hmc.mirantis.com/v1alpha1
@@ -126,7 +135,6 @@ spec:
     apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
     kind: AWSClusterStaticIdentity
     name: aws-cluster-identity
-    namespace: hmc-system
 ```
 
 Apply the YAML to your cluster:
@@ -138,7 +146,8 @@ kubectl apply -f aws-cluster-identity-cred.yaml
 
 ## Step 5: Create the first managedCluster
 
-Create a YAML with the specificaion of your managed Cluster and safe it as `my-aws-managedcluster1.yaml`
+Create a YAML with the specificaion of your managed Cluster and safe it as
+`my-aws-managedcluster1.yaml`
 
 ```yaml
 apiVersion: hmc.mirantis.com/v1alpha1

@@ -1,8 +1,5 @@
 # vSphere cluster template parameters
 
-
-
-
 ## ManagedCluster parameters
 
 To deploy managed cluster a number of parameters should be passed to the
@@ -42,8 +39,6 @@ spec:
   template: vsphere-standalone-cp-0-0-2
   credential: vsphere-credential
   config:
-    clusterIdentity:
-      name: vsphere-cluster-identity
     vsphere:
       server: vcenter.example.com
       thumbprint: "00:00:00"
