@@ -76,6 +76,7 @@ nav:
     - vSphere: quick-start/vsphere.md
   - Usage:
       - Installation Guide: usage/installation.md
+      - Air-gapped Installation Guide: usage/airgap.md
       - Create Managed Cluster: usage/create-managed-cluster.md
       - Cluster Updates: usage/cluster-update.md
   - Templates:

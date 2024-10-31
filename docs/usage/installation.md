@@ -62,6 +62,11 @@ There are two options to override the default management configuration of Projec
            kubectl --kubeconfig <path-to-management-kubeconfig> create -f management.yaml
            ```
 
+## Air-gapped installation
+
+Follow the [Air-gapped Installation Guide](airgap.md) to get the instructions on
+how to perform 2A installation in the air-gapped environment.
+
 ## Cleanup
 
 1. Remove the Management object:
