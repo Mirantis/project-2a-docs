@@ -1,4 +1,4 @@
-# Hosted control plane (k0smotron) deployment
+# Azure Hosted control plane (k0smotron) deployment
 
 ## Prerequisites
 
@@ -73,23 +73,18 @@ kind: ManagedCluster
 metadata:
   name: azure-hosted-cp
 spec:
-  template: azure-hosted-cp
+  template: azure-hosted-cp-0-0-2
+  credential: azure-credential
   config:
     location: "westus"
     subscriptionID: ceb131c7-a917-439f-8e19-cd59fe247e03
     vmSize: Standard_A4_v2
-    clusterIdentity:
-      name: az-cluster-identity
-      namespace: hmc-system
     resourceGroup: mgmt-cluster
     network:
       vnetName: mgmt-cluster-vnet
       nodeSubnetName: mgmt-cluster-node-subnet
       routeTableName: mgmt-cluster-node-routetable
       securityGroupName: mgmt-cluster-node-nsg
-    tenantID: 7db9e0f2-c88a-4116-a373-9c8b6cc9d5eb
-    clientID: 471f65fa-ddee-40b4-90ae-da1a8a114ee1
-    clientSecret: "u_RANDOM"
 ```
 
 To simplify creation of the ManagedCluster object you can use the template below:
@@ -100,23 +95,18 @@ kind: ManagedCluster
 metadata:
   name: azure-hosted-cp
 spec:
-  template: azure-hosted-cp
+  template: azure-hosted-cp-0-0-2
+  credential: azure-credential
   config:
     location: "{{.spec.location}}"
     subscriptionID: "{{.spec.subscriptionID}}"
     vmSize: Standard_A4_v2
-    clusterIdentity:
-      name: az-cluster-identity
-      namespace: hmc-system
     resourceGroup: "{{.spec.resourceGroup}}"
     network:
       vnetName: "{{.spec.networkSpec.vnet.name}}"
       nodeSubnetName: "{{(index .spec.networkSpec.subnets 1).name}}"
       routeTableName: "{{(index .spec.networkSpec.subnets 1).routeTable.name}}"
       securityGroupName: "{{(index .spec.networkSpec.subnets 1).securityGroup.name}}"
-    tenantID: 7db9e0f2-c88a-4116-a373-9c8b6cc9d5eb
-    clientID: 471f65fa-ddee-40b4-90ae-da1a8a114ee1
-    clientSecret: "u_RANDOM"
 ```
 
 Then you can render it using the command:
@@ -127,8 +117,9 @@ kubectl get azurecluster <management cluster name> -o go-template="$(cat templat
 
 ## Cluster creation
 
-After applying `ManagedCluster` object you require to manually set the status of the
-`AzureCluster` object due to current limitations (see k0sproject/k0smotron#668).
+After applying `ManagedCluster` object you require to manually set the status of
+the `AzureCluster` object due to current limitations (see
+[k0sproject/k0smotron#668](https://github.com/k0sproject/k0smotron/issues/668)).
 
 To do so you need to execute the following command:
 

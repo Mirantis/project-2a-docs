@@ -1,8 +1,5 @@
-# Project Overview
+# Architecture
 
-Below is a diagram that provides an overview of how Project 0x2A works.
-
-## Architectural Overview
 
 ```mermaid
 ---
