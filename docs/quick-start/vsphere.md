@@ -2,6 +2,12 @@
 
 ## Prerequisites
 
+### 0x2A Management Cluster
+
+You need a Kubernetes cluster with [0x2A installed](2a-installation.md).
+
+### Software & VMware-specific prerequisites
+
 1. `kubectl` CLI installed locally.
 2. vSphere instance version `6.7.0` or higher.
 3. vSphere account with appropriate [privileges](#vsphere-privileges).
@@ -43,9 +49,9 @@ for extended information regarding cloud-init on vSphere.
 
 When creating network make sure that it has DHCP service.
 
-Also make sure that the part of your network is out of DHCP range (e.g. network
-172.16.0.0/24 with DHCP range 172.16.0.100-172.16.0.254). This is needed to make
-sure that LB services will not create any IP conflicts in the network.
+Also make sure that part of your network is out of DHCP range (e.g. network
+172.16.0.0/24 should have DHCP range 172.16.0.100-172.16.0.254 only). This is
+needed to make sure that LB services will not create any IP conflicts in the network.
 
 ## Step 1: Create a Secret Object with the username and password
 
@@ -75,8 +81,7 @@ kubectl apply -f vsphere-cluster-identity-secret.yaml
 
 This object defines the credentials CAPV will use to manage vSphere resources.
 
-Save the VSphereClusterIdentity YAML into a file named
-`vsphere-cluster-identity.yaml`:
+Save the VSphereClusterIdentity YAML into a file named `vsphere-cluster-identity.yaml`:
 
 ```yaml
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
@@ -96,14 +101,16 @@ Apply the YAML to your cluster:
   kubectl apply -f vsphere-cluster-identity.yaml
 ```
 
-## Step 3: Create the 2A Credential Object
+## Step 3: Create the 0x2A Credential Object
 
-Create a YAML with the specificaion of our credential and safe it as
+Create a YAML with the specification of our credential and save it as
 `vsphere-cluster-identity-cred.yaml`
 
-> NOTE:
-> The `kind:` must be `VSphereClusterIdentity` and the `name:` must match of the
-> `VSphereClusterIdentity` object.
+!!! warning
+
+    `spec.identityRef.kind` must be `VSphereClusterIdentity` and the
+    `spec.identityRef.name` must match the `metadata.name` of the
+    `VSphereClusterIdentity` object above.
 
 ```yaml
 apiVersion: hmc.mirantis.com/v1alpha1
@@ -121,13 +128,31 @@ spec:
 Apply the YAML to your cluster:
 
 ```bash
-kubectl apply -f aws-cluster-identity-cred.yaml
+kubectl apply -f vsphere-cluster-identity-cred.yaml
 ```
 
-## Step 4: Create the first managedCluster
+## Step 4: Create your first Managed Cluster
 
-Create a YAML with the specificaion of your managed Cluster and safe it as
-`my-vsphere-managedcluster1.yaml`
+Create a YAML with the specification of your Managed Cluster and save it as
+`my-vsphere-managedcluster1.yaml`  You will need to specify an existing template.
+
+To see what templates are available, run the following command:
+
+```bash
+kubectl get clustertemplates -n hmc-system
+```
+You should see an output like the following:
+
+```
+NAME                          VALID
+aws-eks-0-0-1                 true
+aws-hosted-cp-0-0-2           true
+aws-standalone-cp-0-0-2       true
+azure-hosted-cp-0-0-2         true
+azure-standalone-cp-0-0-2     true
+vsphere-hosted-cp-0-0-2       true
+vsphere-standalone-cp-0-0-2   true
+```
 
 ```yaml
 apiVersion: hmc.mirantis.com/v1alpha1
@@ -136,7 +161,7 @@ metadata:
   name: my-vsphere-managedcluster1
   namespace: hmc-system
 spec:
-  template: vsphere-standalone-cp-0-0-2
+  template: <Template Name> # The name of the template you want to use from above
   credential: vsphere-cluster-identity-cred
   config:
     vsphere:
@@ -161,11 +186,18 @@ spec:
       network: <VSPHERE_NETWORK>
 ```
 
-> NOTE:
-> For more information about the config options, see the
-> [vSphere Template Parameters](../clustertemplates/vsphere/template-parameters.md).
+!!! note
 
-Follow along the creation of the cluster
+    For more information about the config options, see the
+    [vSphere Template Parameters](../clustertemplates/vsphere/template-parameters.md).
+
+Apply the YAML to your management cluster:
+
+```bash
+kubectl apply -f my-vsphere-managedcluster1.yaml
+```
+
+There will be a delay as the cluster finishes provisioning. Follow the provisioning process with the following command:
 
 ```bash
 kubectl -n hmc-system get managedcluster.hmc.mirantis.com my-vsphere-managedcluster1  --watch
@@ -174,6 +206,5 @@ kubectl -n hmc-system get managedcluster.hmc.mirantis.com my-vsphere-managedclus
 After the cluster is `Ready` you can access it via the kubeconfig, like this:
 
 ```bash
-kubectl -n hmc-system get secret my-vsphere-managedcluster1-kubeconfig -o jsonpath='{.data.value}' | base64 -d > my-vsphere-managedcluster1-kubeconfig.kubeconfig
-KUBECONFIG="my-vsphere-managedcluster1-kubeconfig.kubeconfig" kubectl get pods -A
+( kubectl -n hmc-system get secret my-vsphere-managedcluster1-kubeconfig -o jsonpath='{.data.value}' | base64 -d > my-vsphere-managedcluster1-kubeconfig.kubeconfig ) && KUBECONFIG="my-vsphere-managedcluster1-kubeconfig.kubeconfig" kubectl get pods -A
 ```

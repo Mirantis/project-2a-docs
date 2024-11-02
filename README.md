@@ -1,6 +1,7 @@
 # Project 2A Documentation
 
-The home of the consolidated documentation for Project 2A sponsored by Mirantis.
+The home of the consolidated documentation for Project 0x2A sponsored by Mirantis.
+Project 0x2A may be referred to as 2A in the documentation as a short hand.
 
 [Project 2A Docs](https://mirantis.github.io/project-2a-docs/)
 
@@ -12,7 +13,6 @@ Development is tracked under [Project 2A](https://github.com/orgs/Mirantis/proje
 The related Project 2A repositories can be found as follows:
  * [HMC](https://github.com/Mirantis/hmc)
 
-
 ## Project layout
 
     mkdocs.yml    # The configuration file.
@@ -22,35 +22,58 @@ The related Project 2A repositories can be found as follows:
         assets  # Images and other served material
         ...       # Other markdown pages, images and other files.
 
-
 ## Setting up MKdocs and dependancies
 
 1. Setup python Virtual Environment
 
-    `python3  -m venv ./mkdocs`
-    `source ./mkdocs/bin/activate`
+    ```bash
+    python3 -m venv ./mkdocs
+    source ./mkdocs/bin/activate
+    ```
 
 2. Install MkDocs
 
-    `pip install mkdocs`
+    ```bash
+    pip install mkdocs
+    ```
 
 3. Install plugins
 
-    `pip install mkdocs-mermaid2-plugin`
-
-    `pip install mkdocs-material`
-
-	`pip install markdown-callouts`
+    ```bash
+    pip install mkdocs-mermaid2-plugin
+    pip install mkdocs-material
+    pip install markdown-callouts
+    ```
 
 ## Run MKdocs for dev
 
-* `mkdocs serve` - Start the live-reloading docs server.
+* Start the live-reloading docs server.
+
+    ```bash
+    mkdocs serve
+    ```
 
 For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
 ## MKdocs Commands
 
 * `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
 * `mkdocs build` - Build the documentation site.
 * `mkdocs -h` - Print help message and exit.
+
+# Documentation Standards
+
+This section needs significantly more work.
+
+## Referencing Kubernetes nested resources
+
+Please use the dot notation.  So in the following:
+
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-secret
+```
+
+To refer to the `name` field, please use `metadata.name` and not `name`.
