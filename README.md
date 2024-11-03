@@ -63,7 +63,11 @@ For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
 # Documentation Standards
 
-This section needs significantly more work.
+This section needs significantly more work and likely needs to be in its own file.
+
+## Header Capitalization
+
+All header text should be capitalized.
 
 ## Referencing Kubernetes nested resources
 

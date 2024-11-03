@@ -1,4 +1,8 @@
-### Installation
+# Installation Guide
+
+This section describes how to install Project 0x2A.
+
+## TL;DR
 
 ```bash
 export KUBECONFIG=<path-to-management-kubeconfig>
@@ -8,10 +12,16 @@ export KUBECONFIG=<path-to-management-kubeconfig>
 helm install hmc oci://ghcr.io/mirantis/hmc/charts/hmc --version <hmc-version> -n hmc-system --create-namespace
 ```
 
+This will use the defaults as seen in Extended Management Configuration section below.
 
-#### Extended Management configuration
+## Finding Releases
 
-By default, the Hybrid Container Cloud is being deployed with the following configuration:
+Releases are tagged in the GitHub repository and can be found [here](https://github.com/Mirantis/hmc/tags).
+
+## Extended Management Configuration
+
+Project 0x2A is deployed with the following default configuration, which may vary
+depending on the release version:
 
 ```yaml
 apiVersion: hmc.mirantis.com/v1alpha1
@@ -27,24 +37,26 @@ spec:
   - name: projectsveltos
   release: hmc-0-0-3
 ```
+To see what is included in a specific release, look at the `release.yaml` file in the tagged release.
+For example, here is the [v0.0.3 release.yaml](https://github.com/Mirantis/hmc/releases/download/v0.0.3/release.yaml).
 
-There are two options to override the default management configuration of HMC:
+There are two options to override the default management configuration of Project 0x2A:
 
-1. Update the `Management` object after the HMC installation using `kubectl`:
+1. Update the `Management` object after the Project 0x2A installation using `kubectl`:
 
     `kubectl --kubeconfig <path-to-management-kubeconfig> edit management`
 
-2. Deploy HMC skipping the default `Management` object creation and provide your
+2. Deploy 0x2A skipping the default `Management` object creation and provide your
    own `Management` configuration:
 
 	- Create `management.yaml` file and configure core components and providers.
-	- Specify `--create-management=false` controller argument and install HMC:
+	- Specify `--create-management=false` controller argument and install Project 0x2A:
 	  If installing using `helm` add the following parameter to the `helm
 	  install` command:
 
 		  `--set="controller.createManagement=false"`
 
-	- Create `hmc` `Management` object after HMC installation:
+	- Create `hmc` `Management` object after Project 0x2A installation:
 
            ```bash
            kubectl --kubeconfig <path-to-management-kubeconfig> create -f management.yaml
@@ -54,15 +66,22 @@ There are two options to override the default management configuration of HMC:
 
 1. Remove the Management object:
 
-	`kubectl delete management.hmc hmc`
+  ```bash
+	kubectl delete management.hmc hmc
+  ```
 
-	> NOTE:
-	> Make sure you have no HMC ManagedCluster objects left in the cluster prior to Management deletion
+!!! warning
+
+    Make sure you have no Project 0x2A `ManagedCluster` objects left in the cluster prior to deletion.
 
 2. Remove the `hmc` Helm release:
 
-	`helm uninstall hmc -n hmc-system`
+  ```bash
+	helm uninstall hmc -n hmc-system
+  ```
 
 3. Remove the `hmc-system` namespace:
 
-	`kubectl delete ns hmc-system`
+  ```bash
+	kubectl delete ns hmc-system
+  ```
