@@ -3,7 +3,7 @@
 ## Introduction
 
 Mirantis Project 0x2A is focused on developing a consistent way to deploy 
-and manage Kubernetes clusters at scale. More information can be found [here](./introduction.md).
+and manage Kubernetes clusters at scale.
 
 Project 0x2A was created to be a repeatable and secure way to leverage the existing
 Kubernetes ecosystem (e.g. Cluster API) while being able to provide for the range of
