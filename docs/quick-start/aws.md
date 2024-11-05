@@ -178,3 +178,8 @@ After the cluster is `Ready` you can access it via the kubeconfig, like this:
 kubectl -n hmc-system get secret my-aws-managedcluster1-kubeconfig -o jsonpath='{.data.value}' | base64 -d > my-aws-managedcluster1-kubeconfig.kubeconfig
 KUBECONFIG="my-aws-managedcluster1-kubeconfig.kubeconfig" kubectl get pods -A
 ```
+
+You can also retrieve the kubeconfig via clusterctl:
+```bash
+clusterctl get kubeconfig my-aws-managedcluster1 -n hmc-system > my-aws-managedcluster1-kubeconfig.kubeconfig
+```
