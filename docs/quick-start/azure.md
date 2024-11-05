@@ -244,5 +244,9 @@ kubectl -n hmc-system get managedcluster.hmc.mirantis.com my-azure-managedcluste
 After the cluster is `Ready` you can access it via the kubeconfig, like this:
 
 ```bash
-( kubectl -n hmc-system get secret my-azure-managedcluster1-kubeconfig -o jsonpath='{.data.value}' | base64 -d > my-azure-managedcluster1-kubeconfig.kubeconfig ) && KUBECONFIG="my-azure-managedcluster1-kubeconfig.kubeconfig" kubectl get pods -A
+kubectl -n hmc-system get secret my-azure-managedcluster1-kubeconfig -o jsonpath='{.data.value}' | base64 -d > my-azure-managedcluster1-kubeconfig.kubeconfig
+```
+
+```bash
+KUBECONFIG="my-azure-managedcluster1-kubeconfig.kubeconfig" kubectl get pods -A
 ```
