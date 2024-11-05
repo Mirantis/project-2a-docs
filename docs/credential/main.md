@@ -1,7 +1,7 @@
 # Credential system
 
 In order for infrastructure provider to work properly a correct credentials
-should be passed to it. The following describes how it is implemented in Project 0x2A.
+should be passed to it. The following describes how it is implemented in Project 2A.
 
 ## The process
 
