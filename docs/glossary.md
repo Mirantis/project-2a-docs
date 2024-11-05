@@ -34,9 +34,13 @@ managing Kubernetes clusters. It enables Cluster API (CAPI) to provision and
 manage clusters on a specific infrastructure platform (e.g., AWS, Azure, VMware,
 OpenStack, etc.).
 
-### Managed cluster
+### Managed Cluster
 A Kubernetes cluster created and managed by Project 2A.
 
-### Management cluster
-The Kubernetes cluster where 2A is installed and from which all other managed
-clusters are managed.
+### Management Cluster
+The Kubernetes cluster where 2A is installed and from which all other managed clusters will
+be managed from.
+
+### Provider (also Infrastructure Provider)
+A Kubernetes cluster provider is a Kubernetes API extension that allows 2A to manage
+clusters on a specific infrastructure.

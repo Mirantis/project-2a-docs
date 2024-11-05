@@ -2,9 +2,9 @@
 
 ## Prerequisites
 
-### 0x2A Management Cluster
+### 2A Management Cluster
 
-You need a Kubernetes cluster with [0x2A installed](2a-installation.md).
+You need a Kubernetes cluster with [2A installed](2a-installation.md).
 
 ### Software prerequisites
 
@@ -57,7 +57,7 @@ clusterawsadm bootstrap iam create-cloudformation-stack
       |--------------------|---------------------|
       | AKIAQF+EXAMPLE     | EdJfFar6+example    |
 
-## Step 2: Create the IAM Credentials secret on 0x2A management cluster
+## Step 2: Create the IAM Credentials secret on 2A management cluster
 
 Save the Secret YAML to a file named `aws-cluster-identity-secret.yaml`:
 
@@ -82,7 +82,7 @@ kubectl apply -f aws-cluster-identity-secret.yaml
 !!! warning
 
     The secret must be created in the same `Namespace` where the CAPA provider is
-    running. In case of Project 0x2A it's currently `hmc-system`. Placing secret in
+    running. In case of Project 2A it's currently `hmc-system`. Placing secret in
     any other `Namespace` will result in the controller not able to read it.
 
 ## Step 3: Create AWSClusterStaticIdentity Object
@@ -112,7 +112,7 @@ Apply the YAML to your cluster:
 kubectl apply -f aws-cluster-identity.yaml
 ```
 
-## Step 4: Create the 0x2A Credential Object
+## Step 4: Create the 2A Credential Object
 
 Create a YAML with the specification of our credential and save it as
 `aws-cluster-identity-cred.yaml`.

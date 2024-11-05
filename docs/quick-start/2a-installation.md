@@ -1,7 +1,7 @@
 
 ### Requirements
 
-Project 0x2A requires a Kubernetes cluster, it can be of any type, it will become the 0x2A
+Project 2A requires a Kubernetes cluster, it can be of any type, it will become the 2A
 management cluster.
 
 If you don't have a Kubernetes cluster yet, we suggest you use
@@ -29,7 +29,7 @@ helm install hmc oci://ghcr.io/mirantis/hmc/charts/hmc --version 0.0.3 -n hmc-sy
 
 ### Verification
 
-The installation will take a couple of minutes until 0x2A and its subcomponents are
+The installation will take a couple of minutes until 2A and its subcomponents are
 fully installed and configured.
 
 You can verify the successfull installation by checking all the pods in the
@@ -59,7 +59,7 @@ k0smotron-controller-manager-infrastructure-7f77f55675-tv8vb   2/2     Running
 source-controller-5f648d6f5d-7mhz5                             1/1     Running
 ```
 
-If you have less pods, give 0x2A a little longer to reconcile all the pods.
+If you have less pods, give 2A a little longer to reconcile all the pods.
 
 As a second verification, check that the example ClusterTemplates have been
 installed and are valid:

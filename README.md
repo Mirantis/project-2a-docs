@@ -1,7 +1,7 @@
 # Project 2A Documentation
 
-The home of the consolidated documentation for Project 0x2A sponsored by Mirantis.
-Project 0x2A may be referred to as 2A in the documentation as a short hand.
+The home of the consolidated documentation for Project 2A sponsored by Mirantis.
+Project 2A may be referred to as 2A in the documentation as a short hand.
 
 [Project 2A Docs](https://mirantis.github.io/project-2a-docs/)
 

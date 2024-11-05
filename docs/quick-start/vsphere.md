@@ -2,9 +2,9 @@
 
 ## Prerequisites
 
-### 0x2A Management Cluster
+### 2A Management Cluster
 
-You need a Kubernetes cluster with [0x2A installed](2a-installation.md).
+You need a Kubernetes cluster with [2A installed](2a-installation.md).
 
 ### Software & VMware-specific prerequisites
 
@@ -101,7 +101,7 @@ Apply the YAML to your cluster:
   kubectl apply -f vsphere-cluster-identity.yaml
 ```
 
-## Step 3: Create the 0x2A Credential Object
+## Step 3: Create the 2A Credential Object
 
 Create a YAML with the specification of our credential and save it as
 `vsphere-cluster-identity-cred.yaml`

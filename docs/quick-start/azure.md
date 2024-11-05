@@ -3,13 +3,13 @@
 ## Prerequisites
 
 
-### 0x2A Management Cluster
+### 2A Management Cluster
 
-You need a Kubernetes cluster with [0x2A installed](2a-installation.md).
+You need a Kubernetes cluster with [2A installed](2a-installation.md).
 
 ### Software prerequisites
 
-Before we begin deploying Kubernetes clusters on Azure using Project 0x2A, make
+Before we begin deploying Kubernetes clusters on Azure using Project 2A, make
 sure you have:
 
 The Azure CLI (`az`) is required to interact with Azure resources. Install it
@@ -19,7 +19,7 @@ by following the [Azure CLI installation instructions](https://learn.microsoft.c
 
 ### Register resource providers
 
-If you're using a brand new subscription that has never been used to deploy 0x2A
+If you're using a brand new subscription that has never been used to deploy 2A
 or CAPI clusters, register these services ensure the following resource
 providers are registered:
 
@@ -153,7 +153,7 @@ Apply the YAML to your cluster:
   kubectl apply -f azure-cluster-identity.yaml
 ```
 
-## Step 5: Create the 0x2A Credential Object
+## Step 5: Create the 2A Credential Object
 
 Create a YAML with the specification of our credential and save it as
 `azure-cluster-identity-cred.yaml`.
