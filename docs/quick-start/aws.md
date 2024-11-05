@@ -87,7 +87,7 @@ kubectl apply -f aws-cluster-identity-secret.yaml
 
 ## Step 3: Create AWSClusterStaticIdentity Object
 
-Save the AzureClusterIdentity YAML into a file named `aws-cluster-identity.yaml`:
+Save the AWSClusterIdentity YAML into a file named `aws-cluster-identity.yaml`:
 
 !!! note
 
