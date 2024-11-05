@@ -36,7 +36,7 @@ You can verify the successfull installation by checking all the pods in the
 `hmc-system` namespace with the following command:
 
 ```bash
-kubectl -n hmc-system get pods -n hmc-system
+kubectl get pods -n hmc-system
 ```
 Which would produce output roughly as follows:
 
