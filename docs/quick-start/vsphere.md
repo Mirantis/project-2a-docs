@@ -106,12 +106,6 @@ Apply the YAML to your cluster:
 Create a YAML with the specification of our credential and save it as
 `vsphere-cluster-identity-cred.yaml`
 
-!!! warning
-
-    `spec.identityRef.kind` must be `VSphereClusterIdentity` and the
-    `spec.identityRef.name` must match the `metadata.name` of the
-    `VSphereClusterIdentity` object above.
-
 ```yaml
 apiVersion: hmc.mirantis.com/v1alpha1
 kind: Credential
@@ -124,6 +118,12 @@ spec:
     kind: VSphereClusterIdentity
     name: vsphere-cluster-identity
 ```
+
+> TIP: **Warning**
+> 
+> `spec.identityRef.kind` must be `VSphereClusterIdentity` and the
+> `spec.identityRef.name` must match the `metadata.name` of the
+> `VSphereClusterIdentity` object above.
 
 Apply the YAML to your cluster:
 
@@ -170,10 +170,10 @@ spec:
       network: <VSPHERE_NETWORK>
 ```
 
-!!! note
-
-    For more information about the config options, see the
-    [vSphere Template Parameters](../clustertemplates/vsphere/template-parameters.md).
+> NOTE: 
+>
+> For more information about the config options, see the
+> [vSphere Template Parameters](../clustertemplates/vsphere/template-parameters.md).
 
 Apply the YAML to your management cluster:
 

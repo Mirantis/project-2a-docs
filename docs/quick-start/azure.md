@@ -90,9 +90,9 @@ You will see output like this:
 }
 ```
 
-!!! note
-
-    Make sure to treat these strings like passwords.  Do not share them or check them into a repository.
+> NOTE:
+> 
+> Make sure to treat these strings like passwords.  Do not share them or check them into a repository.
 
 ## Step 3: Create a Secret Object with the password
 
@@ -122,10 +122,10 @@ kubectl apply -f azure-cluster-identity-secret.yaml
 This object defines the credentials CAPZ will use to manage Azure resources.
 It references the Secret you just created above.
 
-!!! warning
-
-    Make sure that `spec.clientSecret.name` matches the name of the Secret you
-    created in the previous step.
+> TIP: **Warning**
+> 
+> Make sure that `spec.clientSecret.name` matches the name of the Secret you
+> created in the previous step.
 
 Save the following YAML into a file named `azure-cluster-identity.yaml`:
 
@@ -158,11 +158,11 @@ Apply the YAML to your cluster:
 Create a YAML with the specification of our credential and save it as
 `azure-cluster-identity-cred.yaml`.
 
-!!! warning
-
-    `spec.kind` must be `AzureClusterIdentity`
-
-    `spec.name` must match `metadata.name` of the `AzureClusterIdentity` object created in the previous step.
+> TIP: **Warning**
+> 
+> `spec.kind` must be `AzureClusterIdentity`
+> 
+> `spec.name` must match `metadata.name` of the `AzureClusterIdentity` object created in the previous step.
 
 ```yaml
 apiVersion: hmc.mirantis.com/v1alpha1

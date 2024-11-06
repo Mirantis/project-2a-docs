@@ -16,9 +16,9 @@ The AWS clusterawsadm (`clusterawsadm`) is required to bootstrap an AWS Account.
 Before launching a cluster on AWS, you need to set up your AWS infrastructure
 with the necessary IAM policies and service account.
 
-!!! note
-
-    Skip steps below if you've already configured IAM policy for your AWS account
+> NOTE:
+> 
+> Skip steps below if you've already configured IAM policy for your AWS account
 
 1. In order to use clusterawsadm you must have an administrative user in an AWS
    account. Once you have that administrator user you need to set your
@@ -79,20 +79,20 @@ Apply the YAML to your cluster using the following command:
 kubectl apply -f aws-cluster-identity-secret.yaml
 ```
 
-!!! warning
-
-    The secret must be created in the same `Namespace` where the CAPA provider is
-    running. In case of Project 2A it's currently `hmc-system`. Placing secret in
-    any other `Namespace` will result in the controller not able to read it.
+> TIP: **Warning**
+> 
+> The secret must be created in the same `Namespace` where the CAPA provider is
+> running. In case of Project 2A it's currently `hmc-system`. Placing secret in
+> any other `Namespace` will result in the controller not able to read it.
 
 ## Step 3: Create AWSClusterStaticIdentity Object
 
 Save the AWSClusterIdentity YAML into a file named `aws-cluster-identity.yaml`:
 
-!!! note
-
-    `spec.secretRef` must match `metadata.name` of the secret that was created in
-    the previous step.
+> NOTE:
+> 
+> `spec.secretRef` must match `metadata.name` of the secret that was created in
+> the previous step.
 
 ```yaml
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
@@ -117,11 +117,11 @@ kubectl apply -f aws-cluster-identity.yaml
 Create a YAML with the specification of our credential and save it as
 `aws-cluster-identity-cred.yaml`.
 
-!!! note
-
-    `spec.identityRef.kind` must be `AWSClusterStaticIdentity` and the
-    `spec.identityRef.name` must match the `metadata.name` of the
-    `AWSClusterStaticIdentity` object.
+> NOTE:
+> 
+> `spec.identityRef.kind` must be `AWSClusterStaticIdentity` and the
+> `spec.identityRef.name` must match the `metadata.name` of the
+> `AWSClusterStaticIdentity` object.
 
 ```yaml
 apiVersion: hmc.mirantis.com/v1alpha1
