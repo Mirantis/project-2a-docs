@@ -15,14 +15,14 @@ to manage your Kubernetes clusters in a central location.
 
 Project 2A includes all of the components below, but because HMC was the first
 component to be developed, it is still referred to as "HMC" in some documentation.
-In many ways "Project 2A and "HMC" are synonymous.
+In many ways "Project 2A" and "HMC" are synonymous.
 
 2A is built around the creation of a set of standardised templates that enable 
 easy, repeatable cluster deployments and life cycle management. 
 
 The main components of 2A include:
 
- * **Hybrid Multi Cluster Management (HMC)**
+ * **Hybrid Multi Cluster (HMC) Management**
 
     Deployment and life-cycle management of Kubernetes clusters, including configuration, updates, and other CRUD operations.
 

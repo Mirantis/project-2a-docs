@@ -63,7 +63,7 @@ For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
 # Documentation Standards
 
-This section needs significantly more work and likely needs to be in its own file.
+By default, we follow the [Kubernetes documentation style guide](https://kubernetes.io/docs/contribute/style/style-guide/). 
 
 ## Header Capitalization
 
@@ -80,4 +80,4 @@ metadata:
   name: my-secret
 ```
 
-To refer to the `name` field, please use `metadata.name` and not `name`.
+To refer to the `name` field, please use `.metadata.name` and not `name`.
