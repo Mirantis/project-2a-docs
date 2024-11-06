@@ -72,7 +72,7 @@ Copy your chosen Subscription ID for the next step.
 The Service Principal is like a password-protected user that CAPZ will use to
 manage resources on Azure.
 
-In your terminal, run the following command. Replace `<Subscription ID>` with
+In your terminal, run the following command. Replace `<subscription-id>` with
 the ID you copied earlier:
 
 ```bash

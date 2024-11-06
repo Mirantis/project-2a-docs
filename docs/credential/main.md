@@ -55,7 +55,7 @@ spec:
 In the example above `Credential` object is referencing `AzureClusterIdentity`
 which was created in the `hmc-system` namespace.
 
-The `spec.description` field can be used to provide arbitrary description of the
+The `.spec.description` field can be used to provide arbitrary description of the
 object, so user could make a decision which credentials to use if several are
 present.
 
@@ -98,7 +98,7 @@ Since this feature depends on the provider some notes and clarifications
 are needed for each provider.
 
 > NOTE: 
-> More detailed research notes could be found [here](https://github.com/Mirantis/hmc/issues/293).
+> More detailed research notes can be found [here](https://github.com/Mirantis/hmc/issues/293).
 
 #### AWS
 

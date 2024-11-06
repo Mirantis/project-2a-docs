@@ -25,7 +25,7 @@ For details about the templates in Project 2A, see the [Templates system](../tem
 > on hosted control planes for each of the clustertemplate sections:
 >
 > - [AWS Hosted Control Plane](../clustertemplates/aws/hosted-control-plane.md)
-> - [vSphere Hosted Control Plane](../clustertemplates/vsphere/hosted-control-plane.md).
+> - [vSphere Hosted Control Plane](../clustertemplates/vsphere/hosted-control-plane.md)
 
 ### Step 3: Create the ManagedCluster Object YAML Configuration
 
@@ -91,7 +91,7 @@ Following is an interpolated example.
 
 > INFO:
 > 
-> Reminder: Namespace and cluster-name are defined in the `metadata`
+> Reminder: `<namespace>` and `<cluster-name>` are defined in the `.metadata`
 > section of the `ManagedCluster` object you created above.
 
 ### Step 6: Wait for Infrastructure and Cluster to be Provisioned
@@ -122,12 +122,13 @@ Following is an interpolated example.
 
 ## Dry Run
 
-Project 2A `ManagedCluster` supports two modes: with and without `dryRun`
+Project 2A `ManagedCluster` supports two modes: with and without `.spec.dryRun`
 (defaults to `false`).
 
-If no configuration (`spec.config`) is specified, the `ManagedCluster` object
+If no configuration (`.spec.config`) is specified, the `ManagedCluster` object
 will be populated with defaults (default configuration can be found in the
-corresponding `Template` status) and automatically have `dryRun` set to `true`.
+corresponding `Template` status) and automatically have `.spec.dryRun` set to
+`true`.
 
 > EXAMPLE: `ManagedCluster` with default configuration
 > 
@@ -166,7 +167,7 @@ corresponding `Template` status) and automatically have `dryRun` set to `true`.
 > ```
 
 After you adjust your configuration and ensure that it passes validation
-(`TemplateReady` condition from `status.conditions`), remove the `spec.dryRun`
+(`TemplateReady` condition from `.status.conditions`), remove the `.spec.dryRun`
 flag to proceed with the deployment.
 
 Here is an example of a `ManagedCluster` object that passed the validation:
