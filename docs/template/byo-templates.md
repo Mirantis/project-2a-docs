@@ -65,7 +65,7 @@ spec:
   providers:
     - bootstrap-k0smotron
     - control-plane-k0smotron
-    - infrastructure-k0smotron
+    - infrastructure-openstack
   helm:
     chartRef:
       kind: HelmChart
