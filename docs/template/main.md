@@ -12,7 +12,6 @@ By default, 2A delivers a set of default `ProviderTemplate`, `ClusterTemplate` a
 All Templates are immutable. You can also build your own templates and use them for deployment along with the
 Templates shipped with 2A.
 
-
 ## Template Life Cycle Management
 
 Cluster and Service Templates can be delivered to target namespaces using the `TemplateManagement`,
@@ -62,6 +61,7 @@ As a result, the new objects should be created:
 * `ClusterTemplate` `default/aws-standalone-cp-0-0-2` (available for the upgrade from `aws-standalone-cp-0-0-1`)
 
 > NOTE:
+>
 > 1. The target `ClusterTemplate` defined as the available for the upgrade should reference the same helm chart name
 > as the source `ClusterTemplate`. Otherwise, after the upgrade is triggered, the cluster will be removed and then,
 > recreated from scratch even if the objects in the helm chart are the same.

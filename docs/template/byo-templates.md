@@ -62,14 +62,10 @@ metadata:
   name: os-k0smotron
   namespace: hmc-system
 spec:
-  type: deployment
   providers:
-    infrastructure:
-      - openstack
-    bootstrap:
-      - k0s
-    controlPlane:
-      - k0smotron
+    - bootstrap-k0smotron
+    - control-plane-k0smotron
+    - infrastructure-k0smotron
   helm:
     chartRef:
       kind: HelmChart
@@ -212,10 +208,11 @@ The aforedescribed attributes are being checked sticking to the following rules:
 
 * both the exact and constraint version of the same type (e.g. `k8sVersion` and `k8sConstraint`) must
 be set otherwise no check is performed;
-* if a `ProviderTemplate` object's exact providers versions do not satisfy the providers' versions
-constraints from the related `ClusterTemplate` object, the updates to the `ManagedCluster` object will be blocked;
-* if the core `CAPI` `ProviderTemplate` exact `CAPI` version does no satisfy the `CAPI` version
-constraints from other of `ProviderTemplate` objects, the to the `Management` object will be blocked;
+* if a `ClusterTemplate` object's providers contract version does not satisfy contract versions
+from the related `ProviderTemplate` object, the updates to the `ManagedCluster` object will be blocked;
+* if a `ProviderTemplate` object's `CAPI` contract version
+(e.g. in a `v1beta1: v1beta1_v1beta2` key-value pair, the key `v1beta1` is the core `CAPI` contract version)
+is not listed in the core `CAPI` `ProviderTemplate` object, the updates to the `Management` object will be blocked;
 * if a `ClusterTemplate` object's exact kubernetes version does not satisfy the kubernetes version
 constraint from the related `ServiceTemplate` object, the updates to the `ManagedCluster` object will be blocked.
 
