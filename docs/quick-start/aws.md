@@ -1,7 +1,7 @@
 # AWS Quick Start
 
 Much of the following includes the process of setting up credentials for AWS.  To better
-understand how Project 0x2A uses credentials, read the [Credential system](../credential/main.md).
+understand how Project 2A uses credentials, read the [Credential system](../credential/main.md).
 
 ## Prerequisites
 
@@ -60,7 +60,7 @@ clusterawsadm bootstrap iam create-cloudformation-stack
       |--------------------|---------------------|
       | AKIAQF+EXAMPLE     | EdJfFar6+example    |
 
-## Step 2: Create the IAM Credentials secret on 0x2A management cluster
+## Step 2: Create the IAM Credentials secret on 2A management cluster
 
 Save the Secret YAML to a file named `aws-cluster-identity-secret.yaml`:
 
@@ -115,7 +115,7 @@ Apply the YAML to your cluster:
 kubectl apply -f aws-cluster-identity.yaml
 ```
 
-## Step 4: Create the 0x2A Credential Object
+## Step 4: Create the 2A Credential Object
 
 Create a YAML with the specification of our credential and save it as
 `aws-cluster-identity-cred.yaml`.

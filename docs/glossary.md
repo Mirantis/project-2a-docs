@@ -35,12 +35,12 @@ manage clusters on a specific infrastructure platform (e.g., AWS, Azure, VMware,
 OpenStack, etc.).
 
 ### Managed Cluster
-A Kubernetes cluster created and managed by Project 0x2A.
+A Kubernetes cluster created and managed by Project 2A.
 
 ### Management Cluster
-The Kubernetes cluster where 0x2A is installed and from which all other managed clusters will
+The Kubernetes cluster where 2A is installed and from which all other managed clusters will
 be managed from.
 
 ### Provider (also Infrastructure Provider)
-A Kubernetes cluster provider is a Kubernetes API extension that allows 0x2A to manage
+A Kubernetes cluster provider is a Kubernetes API extension that allows 2A to manage
 clusters on a specific infrastructure.

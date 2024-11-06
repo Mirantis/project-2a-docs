@@ -1,7 +1,7 @@
 # Azure Quick Start
 
 Much of the following includes the process of setting up credentials for Azure.  To better
-understand how Project 0x2A uses credentials, read the [Credential System](../credential/main.md).
+understand how Project 2A uses credentials, read the [Credential System](../credential/main.md).
 
 ## Prerequisites
 
@@ -21,7 +21,7 @@ by following the [Azure CLI installation instructions](https://learn.microsoft.c
 
 ### Register resource providers
 
-If you're using a brand new subscription that has never been used to deploy 0x2A
+If you're using a brand new subscription that has never been used to deploy 2A
 or CAPI clusters, register these services ensure the following resource
 providers are registered:
 
@@ -155,7 +155,7 @@ Apply the YAML to your cluster:
   kubectl apply -f azure-cluster-identity.yaml
 ```
 
-## Step 5: Create the 0x2A Credential Object
+## Step 5: Create the 2A Credential Object
 
 Create a YAML with the specification of our credential and save it as
 `azure-cluster-identity-cred.yaml`.
