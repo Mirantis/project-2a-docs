@@ -1,7 +1,9 @@
 # Azure Quick Start
 
-## Prerequisites
+Much of the following includes the process of setting up credentials for Azure.  To better
+understand how Project 0x2A uses credentials, read the [Credential System](../credential/main.md).
 
+## Prerequisites
 
 ### 2A Management Cluster
 

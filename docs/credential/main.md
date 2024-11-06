@@ -1,4 +1,4 @@
-# Credential system
+# Credential System
 
 In order for infrastructure provider to work properly a correct credentials
 should be passed to it. The following describes how it is implemented in Project 2A.
@@ -10,11 +10,22 @@ The following is the process of passing credentials to the system:
 1. Provider specific `ClusterIdentity` and `Secret` are created
 2. `Credential` object is created referencing `ClusterIdentity` from step **1**.
 3. The `Credential` object is then referenced in the `ManagedCluster`.
+4. Optionally, certain credentials MAY be propagated to the `ManagedCluster` after it is created.
 
-By design steps 1 and 2 should be executed by the platform lead engineer who has
-access to the credentials. Thus credentials could be used by platform engineers
+The following diagram illustrates the process:
+
+```mermaid
+flowchart TD
+  Step1["<b>Step 1</b> (Lead Engineer):<br/>Create ClusterIdentity and Secret objects where ClusterIdentity references Secret"]
+  Step1 --> Step2["<b>Step 2</b> (Any Engineer):<br/>Create Credential object referencing ClusterIdentity"]
+  Step2 --> Step3["<b>Step 3</b> (Any Engineer):<br/>Create ManagedCluster referencing Credential object"]
+  Step3 --> Step4["<b>Step 4</b> (Any Engineer):<br/>Apply ManagedCluster, wait for provisioning & reconciliation, then propagate credentials to nodes if necessary"]
+```
+
+By design steps 1 and 2 should be executed by the lead engineer who has
+access to the credentials. Thus credentials could be used by engineers
 without a need to have access to actual credentials or underlying resources,
-like `ClusterIndentity`.
+like `ClusterIdentity`.
 
 ## Credential object
 
@@ -44,14 +55,14 @@ spec:
 In the example above `Credential` object is referencing `AzureClusterIdentity`
 which was created in the `hmc-system` namespace.
 
-The `.spec.description` field can be used to provide arbitrary description of the
+The `spec.description` field can be used to provide arbitrary description of the
 object, so user could make a decision which credentials to use if several are
 present.
 
 ## Cloud provider credentials propagation
 
 Some components in the managed cluster require cloud provider credentials to be
-passed for proper functioning. As an example cloud controller manager (CCM)
+passed for proper functioning. As an example Cloud Controller Manager (CCM)
 requires provider credentials to create load balancers and provide other
 functionality.
 
@@ -64,30 +75,30 @@ to pass all necessary credentials. This approach has several problems:
 - Possible leaks, since credentials are copied to several `Secret` objects
   related to bootstrap data.
 
-To solve these problems in Project 2A we're using special controller which
+To solve these problems in Project 0x2A we're using special controller which
 aggregates all necessary data from CAPI provider resources (like
-`ClusterIdentity`) and creates `Secrets` directly on the managed cluster.
+`ClusterIdentity`) and creates secrets directly on the managed cluster.
 
 This eliminates the need to pass anything credentials-related to `cloud-init`
 and makes it possible to rotate credentials automatically without the need for
 instance redeployment.
 
 Also this automation makes it possible to separate roles and responsibilities
-where only platform lead has access to credentials and platform engineer can
-only use them without seeing concrete values and even any access to underlying
+where only the lead engineer has access to credentials and other engineers can
+use them without seeing values and even any access to underlying
 infrastructure platform.
 
 The process is fully automated and credentials will be propagated automatically
-within `ManagedCluster` reconcile process, user only needs to provide correct
-[Credential object](#credential-object).
+within the `ManagedCluster` reconciliation process, user only needs to provide
+the correct [Credential object](#credential-object).
 
 ### Provider specific notes
 
-Since this feature highly depends on the provider some notes and clarifications
-are needed.
+Since this feature depends on the provider some notes and clarifications
+are needed for each provider.
 
->? NOTE: **Research notes**
-> More detailed research notes could be found [here](https://github.com/Mirantis/hmc/issues/293)
+!!! note "Research Notes"
+    More detailed research notes could be found [here](https://github.com/Mirantis/hmc/issues/293).
 
 #### AWS
 
@@ -102,7 +113,7 @@ resources could be found in [CRD Reference](https://cluster-api-aws.sigs.k8s.io/
 
 Currently Cluster API provider Azure (CAPZ) creates `azure.json` Secrets in the
 same namespace with `Cluster` object. By design they should be referenced in the
-`cloud-init` yaml later during bootstrap process.
+`cloud-init` YAML later during bootstrap process.
 
-In Project 2A these Secrets aren't used and will not be added to the
-`cloud-init`, but platform engineer can access them unrestricted.
+In Project 0x2A these Secrets aren't used and will not be added to the
+`cloud-init`, but engineers can access them unrestricted.

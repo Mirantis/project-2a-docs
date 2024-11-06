@@ -1,5 +1,8 @@
 # vSphere Quick Start
 
+Much of the following includes the process of setting up credentials for vSphere.  To better
+understand how Project 0x2A uses credentials, read the [Credential System](../credential/main.md).
+
 ## Prerequisites
 
 ### 2A Management Cluster
@@ -16,7 +19,7 @@ You need a Kubernetes cluster with [2A installed](2a-installation.md).
 
 ### vSphere privileges
 
-To function properly the user assigned to vSphere provider should be able to
+To function properly the user assigned to the vSphere Provider should be able to
 manipulate vSphere resources. The following is the general overview of the
 required privileges:
 
