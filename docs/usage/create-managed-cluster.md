@@ -8,8 +8,7 @@
 
 ### Step 2: Select the Template
 
-> INFO:
-> For details about the `Template system` in HMC, see [Templates system](../template/main.md).
+For details about the templates in Project 2A, see [Templates system](../template/main.md).
 
 - Make sure to set the `KUBECONFIG` environment variable to the path to the
   management cluster kubeconfig file.  Then select the `Template` you want to
