@@ -69,7 +69,7 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Quick Start:
-    - 0x2A Installation: quick-start/2a-installation.md
+    - 2A Installation: quick-start/2a-installation.md
     - Azure: quick-start/azure.md
     - AWS: quick-start/aws.md
     - vSphere: quick-start/vsphere.md
