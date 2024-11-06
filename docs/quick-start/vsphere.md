@@ -1,7 +1,8 @@
 # vSphere Quick Start
 
-Much of the following includes the process of setting up credentials for vSphere.  To better
-understand how Project 2A uses credentials, read the [Credential System](../credential/main.md).
+Much of the following includes the process of setting up credentials for vSphere.
+To better understand how Project 2A uses credentials, read the
+[Credential System](../credential/main.md).
 
 ## Prerequisites
 
@@ -19,8 +20,8 @@ You need a Kubernetes cluster with [2A installed](2a-installation.md).
 
 ### vSphere privileges
 
-To function properly the user assigned to the vSphere Provider should be able to
-manipulate vSphere resources. The following is the general overview of the
+To function properly, the user assigned to the vSphere Provider should be able
+to manipulate vSphere resources. The following is the general overview of the
 required privileges:
 
 - `Virtual machine` - full permissions are required
@@ -28,33 +29,34 @@ required privileges:
 - `Datastore` - it should be possible for user to manipulate virtual machine
   files and metadata
 
-In addition to that specific CSI driver permissions are required see
+In addition to that, specific CSI driver permissions are required. See
 [the official doc](https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/2.0/vmware-vsphere-csp-getting-started/GUID-0AB6E692-AA47-4B6A-8CEA-38B754E16567.html)
-to get more information on CSI specific permissions.
+for more information on CSI-specific permissions.
 
 ### Image template
 
-You can use pre-buit image templates from
+You can use pre-built image templates from the
 [CAPV project](https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/blob/main/README.md#kubernetes-versions-with-published-ovas)
 or build your own.
 
-When building your own image make sure that vmware tools and cloud-init are
+When building your own image, make sure that VMware tools and cloud-init are
 installed and properly configured.
 
-You can follow [official open-vm-tools guide](https://docs.vmware.com/en/VMware-Tools/11.0.0/com.vmware.vsphere.vmwaretools.doc/GUID-C48E1F14-240D-4DD1-8D4C-25B6EBE4BB0F.html)
-on how to correctly install vmware-tools.
+You can follow the [official open-vm-tools guide](https://docs.vmware.com/en/VMware-Tools/11.0.0/com.vmware.vsphere.vmwaretools.doc/GUID-C48E1F14-240D-4DD1-8D4C-25B6EBE4BB0F.html)
+on how to correctly install VMware tools.
 
-When setting up cloud-init you can refer to [official docs](https://cloudinit.readthedocs.io/en/latest/index.html)
-and specifically [vmware datasource docs](https://cloudinit.readthedocs.io/en/latest/reference/datasources/vmware.html)
+When setting up cloud-init, you can refer to the [official docs](https://cloudinit.readthedocs.io/en/latest/index.html)
+and specifically the [VMware datasource docs](https://cloudinit.readthedocs.io/en/latest/reference/datasources/vmware.html)
 for extended information regarding cloud-init on vSphere.
 
 ### vSphere network
 
-When creating network make sure that it has DHCP service.
+When creating a network, make sure that it has DHCP service.
 
-Also make sure that part of your network is out of DHCP range (e.g. network
-172.16.0.0/24 should have DHCP range 172.16.0.100-172.16.0.254 only). This is
-needed to make sure that LB services will not create any IP conflicts in the network.
+Also, ensure that part of your network is out of the DHCP range (e.g., network
+`172.16.0.0/24` should have DHCP range `172.16.0.100-172.16.0.254` only). This
+is needed to ensure that LB services will not create any IP conflicts in the
+network.
 
 ## Step 1: Create a Secret Object with the username and password
 
@@ -76,7 +78,7 @@ type: Opaque
 
 Apply the YAML to your cluster using the following command:
 
-```bash
+```shell
 kubectl apply -f vsphere-cluster-identity-secret.yaml
 ```
 
@@ -100,8 +102,8 @@ spec:
 
 Apply the YAML to your cluster:
 
-```bash
-  kubectl apply -f vsphere-cluster-identity.yaml
+```shell
+kubectl apply -f vsphere-cluster-identity.yaml
 ```
 
 ## Step 3: Create the 2A Credential Object
@@ -123,14 +125,14 @@ spec:
 ```
 
 > WARNING:
-> 
-> `spec.identityRef.kind` must be `VSphereClusterIdentity` and the
-> `spec.identityRef.name` must match the `metadata.name` of the
+>
+> `.spec.identityRef.kind` must be `VSphereClusterIdentity` and the
+> `.spec.identityRef.name` must match the `.metadata.name` of the
 > `VSphereClusterIdentity` object above.
 
 Apply the YAML to your cluster:
 
-```bash
+```shell
 kubectl apply -f vsphere-cluster-identity-cred.yaml
 ```
 
@@ -173,29 +175,30 @@ spec:
       network: <VSPHERE_NETWORK>
 ```
 
-> NOTE: 
+> NOTE:
 >
 > For more information about the config options, see the
 > [vSphere Template Parameters](../clustertemplates/vsphere/template-parameters.md).
 
 Apply the YAML to your management cluster:
 
-```bash
+```shell
 kubectl apply -f my-vsphere-managedcluster1.yaml
 ```
 
-There will be a delay as the cluster finishes provisioning. Follow the provisioning process with the following command:
+There will be a delay as the cluster finishes provisioning. Follow the
+provisioning process with the following command:
 
-```bash
-kubectl -n hmc-system get managedcluster.hmc.mirantis.com my-vsphere-managedcluster1  --watch
+```shell
+kubectl -n hmc-system get managedcluster.hmc.mirantis.com my-vsphere-managedcluster1 --watch
 ```
 
-After the cluster is `Ready` you can access it via the kubeconfig, like this:
+After the cluster is `Ready`, you can access it via the kubeconfig, like this:
 
-```bash
+```shell
 kubectl -n hmc-system get secret my-vsphere-managedcluster1-kubeconfig -o jsonpath='{.data.value}' | base64 -d > my-vsphere-managedcluster1-kubeconfig.kubeconfig
 ```
 
-```bash
+```shell
 KUBECONFIG="my-vsphere-managedcluster1-kubeconfig.kubeconfig" kubectl get pods -A
 ```
