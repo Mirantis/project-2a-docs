@@ -146,24 +146,7 @@ kubectl apply -f aws-cluster-identity-cred.yaml
 ## Step 5: Create your first Managed Cluster
 
 Create a YAML with the specification of your Managed Cluster and save it as
-`my-aws-managedcluster1.yaml`. You will need to specify an existing template.
-
-To see what templates are available, run the following command:
-
-```bash
-kubectl get clustertemplates -n hmc-system
-```
-You should see an output like the following:
-```bash
-NAME                          VALID
-aws-eks-0-0-1                 true
-aws-hosted-cp-0-0-2           true
-aws-standalone-cp-0-0-2       true
-azure-hosted-cp-0-0-2         true
-azure-standalone-cp-0-0-2     true
-vsphere-hosted-cp-0-0-2       true
-vsphere-standalone-cp-0-0-2   true
-```
+`my-aws-managedcluster1.yaml`.
 
 Here is an example of a `ManagedCluster` YAML file:
 
@@ -174,7 +157,7 @@ metadata:
   name: my-aws-managedcluster1
   namespace: hmc-system
 spec:
-  template: <Template Name> # The name of the template you want to use from above
+  template: aws-standalone-cp-0-0-2
   credential: aws-cluster-identity-cred
   config:
     region: us-west-2

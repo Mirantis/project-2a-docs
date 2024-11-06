@@ -189,25 +189,7 @@ This creates the `Credential` object that will be used in the next step.
 ## Step 6: Create your first ManagedCluster
 
 Create a YAML with the specification of your managed Cluster and save it as
-`my-azure-managedcluster1.yaml`.  You will need to specify an existing template.
-
-To see what templates are available, run the following command:
-
-```bash
-kubectl get clustertemplates -n hmc-system
-```
-You should see an output like the following:
-
-```
-NAME                          VALID
-aws-eks-0-0-1                 true
-aws-hosted-cp-0-0-2           true
-aws-standalone-cp-0-0-2       true
-azure-hosted-cp-0-0-2         true
-azure-standalone-cp-0-0-2     true
-vsphere-hosted-cp-0-0-2       true
-vsphere-standalone-cp-0-0-2   true
-```
+`my-azure-managedcluster1.yaml`.
 
 Here is an example of a `ManagedCluster` YAML file:
 
@@ -218,7 +200,7 @@ metadata:
   name: my-azure-managedcluster1
   namespace: hmc-system
 spec:
-  template: <Template Name> # The name of the template you want to use
+  template: azure-standalone-cp-0-0-2
   credential: azure-cluster-identity-cred
   config:
     location: "westus" # Select your desired Azure Location (find it via `az account list-locations -o table`)

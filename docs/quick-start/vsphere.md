@@ -134,25 +134,9 @@ kubectl apply -f vsphere-cluster-identity-cred.yaml
 ## Step 4: Create your first Managed Cluster
 
 Create a YAML with the specification of your Managed Cluster and save it as
-`my-vsphere-managedcluster1.yaml`  You will need to specify an existing template.
+`my-vsphere-managedcluster1.yaml`.
 
-To see what templates are available, run the following command:
-
-```bash
-kubectl get clustertemplates -n hmc-system
-```
-You should see an output like the following:
-
-```
-NAME                          VALID
-aws-eks-0-0-1                 true
-aws-hosted-cp-0-0-2           true
-aws-standalone-cp-0-0-2       true
-azure-hosted-cp-0-0-2         true
-azure-standalone-cp-0-0-2     true
-vsphere-hosted-cp-0-0-2       true
-vsphere-standalone-cp-0-0-2   true
-```
+Here is an example of a `ManagedCluster` YAML file:
 
 ```yaml
 apiVersion: hmc.mirantis.com/v1alpha1
@@ -161,7 +145,7 @@ metadata:
   name: my-vsphere-managedcluster1
   namespace: hmc-system
 spec:
-  template: <Template Name> # The name of the template you want to use from above
+  template: vsphere-standalone-cp-0-0-2
   credential: vsphere-cluster-identity-cred
   config:
     vsphere:
