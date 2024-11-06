@@ -56,7 +56,6 @@ plugins:
 # Page tree
 
 markdown_extensions:
-  - admonition
   - callouts
   - tables
   - pymdownx.details
