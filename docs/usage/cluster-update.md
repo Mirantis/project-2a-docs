@@ -1,28 +1,29 @@
 # Managed Cluster update
 
-To update the `ManagedCluster` update `spec.template` in the `ManagedCluster` object to the new `ClusterTemplate` name:
+To update the `ManagedCluster`, update `.spec.template` in the `ManagedCluster`
+object to the new `ClusterTemplate` name:
 
 Run:
 
-```bash
-kubectl patch managedcluster.hmc <Your Cluster Name> -n <Namespace> --patch '{"spec":{"template":"<new-template-name>"}}' --type=merge
+```shell
+kubectl patch managedcluster.hmc <cluster-name> -n <namespace> --patch '{"spec":{"template":"<new-template-name>"}}' --type=merge
 ```
 
 Then, check the status of the `ManagedCluster` object:
 
-```bash
-kubectl get managedcluster.hmc <Your Cluster Name> -n <Namespace>
+```shell
+kubectl get managedcluster.hmc <cluster-name> -n <namespace>
 ```
 
 In the commands above, replace the parameters enclosed in angle brackets with
 the corresponding values.
 
-To get more details, run the previous command with `-o=yaml` option and check
-the `status.conditions`.
+To get more details, run the previous command with the `-o=yaml` option and
+check the `.status.conditions`.
 
-> NOTE: 
-> The `ManagedCluster` is allowed to be updated to the specific templates
-> only. The templates available for the update are defined in the
+> NOTE:
+> The `ManagedCluster` is allowed to be updated to specific templates only.
+> The templates available for the update are defined in the
 > `ClusterTemplateChain` objects. Also, the `TemplateManagement` object should
 > contain properly configured `spec.accessRules` with the list of
 > `ClusterTemplateChain` object names and the namespaces where the supported

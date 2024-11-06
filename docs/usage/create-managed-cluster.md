@@ -4,25 +4,25 @@
 
 ### Step 1: Create Credential
 
-- Create `Credential` object with all credentials required per [Credential System](../credential/main.md).
+- Create a `Credential` object with all credentials required per the
+  [Credential System](../credential/main.md).
 
 ### Step 2: Select the Template
 
-For details about the templates in Project 2A, see [Templates system](../template/main.md).
+For details about the templates in Project 2A, see the [Templates system](../template/main.md).
 
-- Make sure to set the `KUBECONFIG` environment variable to the path to the
-  management cluster kubeconfig file.  Then select the `Template` you want to
-  use for the deployment. To list all available templates, run:
+- Set the `KUBECONFIG` environment variable to the path to the management
+  cluster kubeconfig file. Then select the `Template` you want to use for the
+  deployment. To list all available templates, run:
 
-  ```bash
+  ```shell
   kubectl get clustertemplate -n hmc-system
   ```
 
 > NOTE:
 >
-> If you want to deploy a hosted control plane template, make sure to check
-> additional notes on hosted control planes for each of the clustertemplate
-> sections:
+> If you want to deploy a hosted control plane template, check additional notes
+> on hosted control planes for each of the clustertemplate sections:
 >
 > - [AWS Hosted Control Plane](../clustertemplates/aws/hosted-control-plane.md)
 > - [vSphere Hosted Control Plane](../clustertemplates/vsphere/hosted-control-plane.md).
@@ -35,11 +35,11 @@ For details about the templates in Project 2A, see [Templates system](../templat
     apiVersion: hmc.mirantis.com/v1alpha1
     kind: ManagedCluster
     metadata:
-      name: <Your Cluster Name>
-      namespace: <HMC System Namespace>
+      name: <cluster-name>
+      namespace: <hmc-system-namespace>
     spec:
-      template: <HMC Template Name>
-      credential: <Infrastructure Provider Credential Name>
+      template: <template-name>
+      credential: <infrastructure-provider-credential-name>
       dryRun: <"true" or "false": defaults to "false">
       config:
         <cluster-configuration>
@@ -77,7 +77,7 @@ Following is an interpolated example.
 
 - Apply the `ManagedCluster` object to your Project 2A deployment:
 
-	```bash
+	```shell
 	kubectl apply -f managedcluster.yaml
 	```
 
@@ -85,20 +85,21 @@ Following is an interpolated example.
 
 - Check the status of the newly created `ManagedCluster`:
 
-	```bash
-	kubectl -n <Namespace> get managedcluster.hmc <Your Cluster Name> -o=yaml
+	```shell
+	kubectl -n <namespace> get managedcluster.hmc <cluster-name> -o=yaml
 	```
 
 > INFO:
 > 
-> Reminder: Namespace and Your Cluster Name are defined in the `metadata` section of the `ManagedCluster` object you created above.
+> Reminder: Namespace and cluster-name are defined in the `metadata`
+> section of the `ManagedCluster` object you created above.
 
 ### Step 6: Wait for Infrastructure and Cluster to be Provisioned
 
 - Wait for infrastructure to be provisioned and the cluster to be deployed:
 
-	```bash
-	kubectl -n <Namespace> get cluster <Your Cluster Name> -o=yaml
+	```shell
+	kubectl -n <namespace> get cluster <cluster-name> -o=yaml
 	```
 
 > TIP:
@@ -106,24 +107,27 @@ Following is an interpolated example.
 > You may also watch the process with the `clusterctl describe` command
 > (requires the `clusterctl` CLI to be installed):
 > 
-> ```bash
-> clusterctl describe cluster <Your Cluster Name> -n <Namespace> --show-conditions all
+> ```shell
+> clusterctl describe cluster <cluster-name> -n <namespace> --show-conditions all
 > ```
 
 ### Step 7: Retrieve Kubernetes Configuration of Your Managed Cluster
 
-- Retrieve the Kubernetes configuration of your managed cluster when it is finished provisioning:
+- Retrieve the Kubernetes configuration of your managed cluster when it is
+  finished provisioning:
 
-    ```
-    kubectl get secret -n <Namespace> <Your Cluster Name>-kubeconfig -o=jsonpath={.data.value} | base64 -d > kubeconfig
+    ```shell
+    kubectl get secret -n <namespace> <cluster-name>-kubeconfig -o=jsonpath={.data.value} | base64 -d > kubeconfig
     ```
 
 ## Dry Run
 
-Project 2A `ManagedCluster` supports two modes: with and without `dryRun` (defaults to `false`).
+Project 2A `ManagedCluster` supports two modes: with and without `dryRun`
+(defaults to `false`).
 
-If no configuration (`spec.config`) is specified, the `ManagedCluster` object will be populated with defaults
-(default configuration can be found in the corresponding `Template` status) and automatically have `dryRun` set to `true`.
+If no configuration (`spec.config`) is specified, the `ManagedCluster` object
+will be populated with defaults (default configuration can be found in the
+corresponding `Template` status) and automatically have `dryRun` set to `true`.
 
 > EXAMPLE: `ManagedCluster` with default configuration
 > 
@@ -161,8 +165,9 @@ If no configuration (`spec.config`) is specified, the `ManagedCluster` object wi
 >   dryRun: true
 > ```
 
-After you adjust your configuration and ensure that it passes validation (`TemplateReady` condition
-from `status.conditions`), remove the `spec.dryRun` flag to proceed with the deployment.
+After you adjust your configuration and ensure that it passes validation
+(`TemplateReady` condition from `status.conditions`), remove the `spec.dryRun`
+flag to proceed with the deployment.
 
 Here is an example of a `ManagedCluster` object that passed the validation:
 
@@ -206,28 +211,29 @@ Here is an example of a `ManagedCluster` object that passed the validation:
 >     observedGeneration: 1
 > ```
 
-<!-- This Cleanup section describes uninstalling project 2A from the super cluster and hence should be in it's own file. -->
+<!-- This Cleanup section describes uninstalling project 2A from the super cluster and hence should be in its own file. -->
 
 ## Cleanup
 
 1. Remove the Management object:
 
-	```bash
+	```shell
 	kubectl delete management.hmc hmc
 	```
 
 > NOTE:
 >
-> Make sure you have no Project 2A `ManagedCluster` objects left in the cluster prior to Management deletion.
+> Ensure you have no Project 2A `ManagedCluster` objects left in the cluster
+> prior to Management deletion.
 
 2. Remove the `hmc` Helm release:
 
-	```bash
+	```shell
 	helm uninstall hmc -n hmc-system
 	```
 
 3. Remove the `hmc-system` namespace:
 
-	```bash
+	```shell
 	kubectl delete ns hmc-system
 	```
