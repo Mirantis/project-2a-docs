@@ -122,7 +122,7 @@ kubectl apply -f azure-cluster-identity-secret.yaml
 This object defines the credentials CAPZ will use to manage Azure resources.
 It references the Secret you just created above.
 
-> TIP: **Warning**
+> WARNING:
 > 
 > Make sure that `spec.clientSecret.name` matches the name of the Secret you
 > created in the previous step.
@@ -158,7 +158,7 @@ Apply the YAML to your cluster:
 Create a YAML with the specification of our credential and save it as
 `azure-cluster-identity-cred.yaml`.
 
-> TIP: **Warning**
+> WARNING:
 > 
 > `spec.kind` must be `AzureClusterIdentity`
 > 

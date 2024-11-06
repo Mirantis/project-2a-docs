@@ -119,7 +119,7 @@ spec:
     name: vsphere-cluster-identity
 ```
 
-> TIP: **Warning**
+> WARNING:
 > 
 > `spec.identityRef.kind` must be `VSphereClusterIdentity` and the
 > `spec.identityRef.name` must match the `metadata.name` of the

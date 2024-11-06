@@ -79,7 +79,7 @@ Apply the YAML to your cluster using the following command:
 kubectl apply -f aws-cluster-identity-secret.yaml
 ```
 
-> TIP: **Warning**
+> WARNING:
 > 
 > The secret must be created in the same `Namespace` where the CAPA provider is
 > running. In case of Project 2A it's currently `hmc-system`. Placing secret in
