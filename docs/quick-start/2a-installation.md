@@ -59,7 +59,7 @@ k0smotron-controller-manager-infrastructure-7f77f55675-tv8vb   2/2     Running
 source-controller-5f648d6f5d-7mhz5                             1/1     Running
 ```
 
-If you have less pods, give 2A a little longer to reconcile all the pods.
+If you have less pods, give 0x2A a little longer to reconcile all the pods.
 
 As a second verification, check that the example ClusterTemplates have been
 installed and are valid:

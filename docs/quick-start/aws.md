@@ -57,7 +57,7 @@ clusterawsadm bootstrap iam create-cloudformation-stack
       |--------------------|---------------------|
       | AKIAQF+EXAMPLE     | EdJfFar6+example    |
 
-## Step 2: Create the IAM Credentials secret on 2A management cluster
+## Step 2: Create the IAM Credentials secret on 0x2A management cluster
 
 Save the Secret YAML to a file named `aws-cluster-identity-secret.yaml`:
 
@@ -112,7 +112,7 @@ Apply the YAML to your cluster:
 kubectl apply -f aws-cluster-identity.yaml
 ```
 
-## Step 4: Create the 2A Credential Object
+## Step 4: Create the 0x2A Credential Object
 
 Create a YAML with the specification of our credential and save it as
 `aws-cluster-identity-cred.yaml`.
@@ -157,7 +157,7 @@ metadata:
   name: my-aws-managedcluster1
   namespace: hmc-system
 spec:
-  template: aws-standalone-cp-0-0-2
+  template: <Template Name> # The name of the template you want to use from above
   credential: aws-cluster-identity-cred
   config:
     region: us-west-2

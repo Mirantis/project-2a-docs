@@ -101,7 +101,7 @@ Apply the YAML to your cluster:
   kubectl apply -f vsphere-cluster-identity.yaml
 ```
 
-## Step 3: Create the 2A Credential Object
+## Step 3: Create the 0x2A Credential Object
 
 Create a YAML with the specification of our credential and save it as
 `vsphere-cluster-identity-cred.yaml`
@@ -145,7 +145,7 @@ metadata:
   name: my-vsphere-managedcluster1
   namespace: hmc-system
 spec:
-  template: vsphere-standalone-cp-0-0-2
+  template: <Template Name> # The name of the template you want to use from above
   credential: vsphere-cluster-identity-cred
   config:
     vsphere:
