@@ -1,6 +1,6 @@
 # Installation Guide
 
-This section describes how to install Project 0x2A.
+This section describes how to install Project 2A.
 
 ## TL;DR
 
@@ -20,7 +20,7 @@ Releases are tagged in the GitHub repository and can be found [here](https://git
 
 ## Extended Management Configuration
 
-Project 0x2A is deployed with the following default configuration, which may vary
+Project 2A is deployed with the following default configuration, which may vary
 depending on the release version:
 
 ```yaml
@@ -40,23 +40,23 @@ spec:
 To see what is included in a specific release, look at the `release.yaml` file in the tagged release.
 For example, here is the [v0.0.3 release.yaml](https://github.com/Mirantis/hmc/releases/download/v0.0.3/release.yaml).
 
-There are two options to override the default management configuration of Project 0x2A:
+There are two options to override the default management configuration of Project 2A:
 
-1. Update the `Management` object after the Project 0x2A installation using `kubectl`:
+1. Update the `Management` object after the Project 2A installation using `kubectl`:
 
     `kubectl --kubeconfig <path-to-management-kubeconfig> edit management`
 
-2. Deploy 0x2A skipping the default `Management` object creation and provide your
+2. Deploy 2A skipping the default `Management` object creation and provide your
    own `Management` configuration:
 
 	- Create `management.yaml` file and configure core components and providers.
-	- Specify `--create-management=false` controller argument and install Project 0x2A:
+	- Specify `--create-management=false` controller argument and install Project 2A:
 	  If installing using `helm` add the following parameter to the `helm
 	  install` command:
 
 		  `--set="controller.createManagement=false"`
 
-	- Create `hmc` `Management` object after Project 0x2A installation:
+	- Create `hmc` `Management` object after Project 2A installation:
 
            ```bash
            kubectl --kubeconfig <path-to-management-kubeconfig> create -f management.yaml
@@ -70,9 +70,9 @@ There are two options to override the default management configuration of Projec
 	kubectl delete management.hmc hmc
   ```
 
-!!! warning
-
-    Make sure you have no Project 0x2A `ManagedCluster` objects left in the cluster prior to deletion.
+> WARNING: 
+> 
+> Make sure you have no Project 2A `ManagedCluster` objects left in the cluster prior to deletion.
 
 2. Remove the `hmc` Helm release:
 

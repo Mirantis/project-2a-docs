@@ -1,4 +1,3 @@
-
 # mkdocs folder
 mkdocs
 
@@ -6,4 +5,5 @@ mkdocs
 .idea
 *.swp
 *.swo
-*~
+*~.cursorrules
+*~.gitignore

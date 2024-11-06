@@ -97,8 +97,8 @@ the correct [Credential object](#credential-object).
 Since this feature depends on the provider some notes and clarifications
 are needed for each provider.
 
-!!! note "Research Notes"
-    More detailed research notes could be found [here](https://github.com/Mirantis/hmc/issues/293).
+> NOTE: 
+> More detailed research notes could be found [here](https://github.com/Mirantis/hmc/issues/293).
 
 #### AWS
 
