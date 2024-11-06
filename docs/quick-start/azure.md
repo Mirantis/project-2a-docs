@@ -1,7 +1,8 @@
 # Azure Quick Start
 
-Much of the following includes the process of setting up credentials for Azure.  To better
-understand how Project 2A uses credentials, read the [Credential System](../credential/main.md).
+Much of the following includes the process of setting up credentials for Azure.
+To better understand how Project 2A uses credentials, read the
+[Credential System](../credential/main.md).
 
 ## Prerequisites
 
@@ -11,19 +12,17 @@ You need a Kubernetes cluster with [2A installed](2a-installation.md).
 
 ### Software prerequisites
 
-Before we begin deploying Kubernetes clusters on Azure using Project 2A, make
-sure you have:
+Before deploying Kubernetes clusters on Azure using Project 2A, ensure you have:
 
 The Azure CLI (`az`) is required to interact with Azure resources. Install it
 by following the [Azure CLI installation instructions](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli).
 
-   Run the `az login` command to authenticate your session with Azure.
+Run the `az login` command to authenticate your session with Azure.
 
 ### Register resource providers
 
-If you're using a brand new subscription that has never been used to deploy 2A
-or CAPI clusters, register these services ensure the following resource
-providers are registered:
+If you're using a new subscription that has never been used to deploy 2A or
+CAPI clusters, ensure the following resource providers are registered:
 
 - `Microsoft.Compute`
 - `Microsoft.Network`
@@ -31,10 +30,9 @@ providers are registered:
 - `Microsoft.ManagedIdentity`
 - `Microsoft.Authorization`
 
-To register these providers, you can run the following commands in the Azure
-CLI:
+To register these providers, run the following commands in the Azure CLI:
 
-```bash
+```shell
 az provider register --namespace Microsoft.Compute
 az provider register --namespace Microsoft.Network
 az provider register --namespace Microsoft.ContainerService
@@ -45,15 +43,15 @@ az provider register --namespace Microsoft.Authorization
 You can follow the [official documentation guide](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types)
 to register the providers.
 
-Before you can create a cluster on Azure, you need to set up credentials.
-This involves creating an `AzureClusterIdentity` and a `Service Principal (SP)`
-to let CAPZ (Cluster API Azure) communicate with Azure.
+Before creating a cluster on Azure, set up credentials. This involves creating
+an `AzureClusterIdentity` and a _Service Principal (SP)_ to let CAPZ (Cluster
+API Azure) communicate with Azure.
 
 ## Step 1: Find Your Subscription ID
 
 List all your Azure subscriptions:
 
-```bash
+```shell
 az account list -o table
 ```
 
@@ -74,11 +72,11 @@ Copy your chosen Subscription ID for the next step.
 The Service Principal is like a password-protected user that CAPZ will use to
 manage resources on Azure.
 
-In your terminal, run the following command. Make sure to replace <Subscription
-ID> with the ID you copied earlier:
+In your terminal, run the following command. Replace `<Subscription ID>` with
+the ID you copied earlier:
 
 ```bash
-az ad sp create-for-rbac --role contributor --scopes="/subscriptions/<Subscription ID>"
+az ad sp create-for-rbac --role contributor --scopes="/subscriptions/<subscription-id>"
 ```
 
 You will see output like this:
@@ -88,17 +86,17 @@ You will see output like this:
  "appId": "12345678-7848-4ce6-9be9-a4b3eecca0ff",
  "displayName": "azure-cli-2024-10-24-17-36-47",
  "password": "12~34~I5zKrL5Kem2aXsXUw6tIig0M~3~1234567",
- "tenant": "12345678-959b-481f-b094-eb043a87570a",
+ "tenant": "12345678-959b-481f-b094-eb043a87570a"
 }
 ```
 
 > NOTE:
-> 
-> Make sure to treat these strings like passwords.  Do not share them or check them into a repository.
+> Make sure to treat these strings like passwords. Do not share them
+> or check them into a repository.
 
 ## Step 3: Create a Secret Object with the password
 
-The Secret stores the clientSecret (password) from the Service Principal.
+The Secret stores the `clientSecret` (password) from the Service Principal.
 
 Save the Secret YAML into a file named `azure-cluster-identity-secret.yaml`:
 
@@ -115,7 +113,7 @@ type: Opaque
 
 Apply the YAML to your cluster using the following command:
 
-```bash
+```shell
 kubectl apply -f azure-cluster-identity-secret.yaml
 ```
 
@@ -125,9 +123,8 @@ This object defines the credentials CAPZ will use to manage Azure resources.
 It references the Secret you just created above.
 
 > WARNING:
-> 
-> Make sure that `spec.clientSecret.name` matches the name of the Secret you
-> created in the previous step.
+> Make sure that `.spec.clientSecret.name` matches the name of the
+> Secret you created in the previous step.
 
 Save the following YAML into a file named `azure-cluster-identity.yaml`:
 
@@ -151,8 +148,8 @@ spec:
 
 Apply the YAML to your cluster:
 
-```bash
-  kubectl apply -f azure-cluster-identity.yaml
+```shell
+kubectl apply -f azure-cluster-identity.yaml
 ```
 
 ## Step 5: Create the 2A Credential Object
@@ -161,10 +158,9 @@ Create a YAML with the specification of our credential and save it as
 `azure-cluster-identity-cred.yaml`.
 
 > WARNING:
-> 
-> `spec.kind` must be `AzureClusterIdentity`
-> 
-> `spec.name` must match `metadata.name` of the `AzureClusterIdentity` object created in the previous step.
+> `.spec.kind` must be `AzureClusterIdentity`  
+> `.spec.name` must match `.metadata.name` of the `AzureClusterIdentity` object
+> created in the previous step.
 
 ```yaml
 apiVersion: hmc.mirantis.com/v1alpha1
@@ -182,7 +178,7 @@ spec:
 
 Apply the YAML to your cluster:
 
-```bash
+```shell
 kubectl apply -f azure-cluster-identity-cred.yaml
 ```
 
@@ -206,7 +202,7 @@ spec:
   credential: azure-cluster-identity-cred
   config:
     location: "westus" # Select your desired Azure Location (find it via `az account list-locations -o table`)
-    subscriptionID: <Subscription ID> # Enter the Subscription ID used earlier
+    subscriptionID: <subscription-id> # Enter the Subscription ID used earlier
     controlPlane:
       vmSize: Standard_A4_v2
     worker:
@@ -215,22 +211,23 @@ spec:
 
 Apply the YAML to your management cluster:
 
-```bash
+```shell
 kubectl apply -f my-azure-managedcluster1.yaml
 ```
 
-There will be a delay as the cluster finishes provisioning. Follow the provisioning process with the following command:
+There will be a delay as the cluster finishes provisioning. Follow the
+provisioning process with the following command:
 
-```bash
-kubectl -n hmc-system get managedcluster.hmc.mirantis.com my-azure-managedcluster1  --watch
+```shell
+kubectl -n hmc-system get managedcluster.hmc.mirantis.com my-azure-managedcluster1 --watch
 ```
 
-After the cluster is `Ready` you can access it via the kubeconfig, like this:
+After the cluster is `Ready`, you can access it via the kubeconfig, like this:
 
-```bash
+```shell
 kubectl -n hmc-system get secret my-azure-managedcluster1-kubeconfig -o jsonpath='{.data.value}' | base64 -d > my-azure-managedcluster1-kubeconfig.kubeconfig
 ```
 
-```bash
+```shell
 KUBECONFIG="my-azure-managedcluster1-kubeconfig.kubeconfig" kubectl get pods -A
 ```
