@@ -2,7 +2,7 @@
 
 ## AWS AMI
 
-By default AMI id will be looked up automatically using the latest Amazon Linux 2 image.
+By default AMI ID will be looked up automatically using the latest Amazon Linux 2 image.
 
 You can override lookup parameters to search your desired image automatically or
 use AMI ID directly.

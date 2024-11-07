@@ -23,7 +23,7 @@ and the upgrade sequences for them.
 The example of the Cluster Template Management:
 
 1. Create `ClusterTemplateChain` object in the system namespace (defaults to `hmc-system`). Properly configure
-   the list of `availableUpgrades` for the specified `ClusterTemplate` if the upgrade is allowed. For example:
+   the list of `.spec.supportedTemplates[].availableUpgrades` for the specified `ClusterTemplate` if the upgrade is allowed. For example:
 
 ```yaml
 apiVersion: hmc.mirantis.com/v1alpha1
@@ -39,7 +39,7 @@ spec:
     - name: aws-standalone-cp-0-0-2
 ```
 
-2. Edit `TemplateManagement` object and configure the `spec.accessRules`.
+2. Edit `TemplateManagement` object and configure the `.spec.accessRules`.
    For example, to apply all templates and upgrade sequences defined in the `aws` `ClusterTemplateChain` to the
    `default` namespace, the following `accessRule` should be added:
 

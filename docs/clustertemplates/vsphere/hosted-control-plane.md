@@ -14,13 +14,12 @@ reside in the management cluster.
 Hosted CP template has mostly identical parameters with standalone CP, you can
 check them in the [template parameters](template-parameters.md) section.
 
-> NOTE: **Important note on control plane endpoint IP**
-> Since vSphere provider requires that user will provide control plane endpoint
-> IP before deploying the cluster you should make sure that this IP will be the
-> same that will be assigned to the k0smotron LB service. Thus you must provide
-> control plane endpoint IP to the k0smotron service via annotation which is
-> accepted by your LB provider (in the following example `kube-vip` annotation
-> is used)
+> NOTE: **Important Note on Control Plane Endpoint IP Address**
+> The vSphere provider requires the control plane endpoint IP to be specified
+> before deploying the cluster. Ensure that this IP matches the IP assigned to
+> the k0smotron load balancer (LB) service. Provide the control plane endpoint
+> IP to the k0smotron service via an annotation accepted by your LB provider
+> (e.g., the `kube-vip` annotation in the example below).
 
 ```yaml
 apiVersion: hmc.mirantis.com/v1alpha1

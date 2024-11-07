@@ -11,9 +11,25 @@ controller, CNI, and/or CSI. While from the perspective of how they are deployed
 they are no different from other Kubernetes services, we define them as distinct
 from the apps and services deployed as part of the applications.
 
+### Cluster API (CAPI)
+CAPI is a Kubernetes project that provides a declarative way to manage the 
+lifecycle of Kubernetes clusters. It abstracts the underlying infrastructure, 
+allowing users to create, scale, upgrade, and delete clusters using a 
+consistent API. CAPI is extensible via providers that offer infrastructure- 
+specific functionality, such as AWS, Azure, and vSphere.
+
 ### CAPI provider (see also [Infrastructure provider](#infrastructure-provider-see-also-capi-provider))
 A CAPI provider is a Kubernetes CAPI extension that allows 2A to manage and
 drive the creation of clusters on a specific infrastructure via API calls.
+
+### CAPA
+CAPA stands for Cluster API Provider for AWS.
+
+### CAPV
+CAPV stands for Cluster API Provider for vSphere.
+
+### CAPZ
+CAPZ stands for Cluster API Provider for Azure.
 
 ### Cloud Controller Manager
 Cloud Controller Manager (CCM) is a Kubernetes component that embeds logic to
@@ -29,6 +45,15 @@ necessary credentials to manage a specific infrastructure. The credential object
 references other CRs with infrastructure-specific credentials such as access
 keys, passwords, certificates, etc. This means that a credential is specific to
 the CAPI provider that uses it.
+
+### Hosted Control Plane (HCP)
+An HCP is a Kubernetes control plane that runs outside of the clusters it
+manages. Instead of running the control plane components (like the API server,
+controller manager, and etcd) within the same cluster as the worker nodes, the
+control plane is hosted on a separate, often centralized, infrastructure. This
+approach can provide benefits such as easier management, improved security, and
+better resource utilization, as the control plane can be scaled independently
+of the worker nodes.
 
 ### Infrastructure provider (see also [CAPI provider](#capi-provider-see-also-infrastructure-provider))
 An infrastructure provider (aka `InfrastructureProvider`) is a Kubernetes custom

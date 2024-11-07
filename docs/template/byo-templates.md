@@ -7,7 +7,7 @@ external Helm repository. Label it with `hmc.mirantis.com/managed: "true"`.
 2. Create a [HelmChart](https://fluxcd.io/flux/components/source/helmcharts/) object referencing the `HelmRepository` as a
 `sourceRef`, specifying the name and version of your Helm chart. Label it with `hmc.mirantis.com/managed: "true"`.
 3. Create a `ClusterTemplate`, `ServiceTemplate` or `ProviderTemplate` object referencing this helm chart in
-`spec.helm.chartRef`. `chartRef` is a field of the
+`.spec.helm.chartRef`. `chartRef` is a field of the
 [CrossNamespaceSourceReference](https://fluxcd.io/flux/components/helm/api/v2/#helm.toolkit.fluxcd.io/v2.CrossNamespaceSourceReference) kind.
 For `ClusterTemplate` and `ServiceTemplate` configure the namespace where this template should reside
 (`metadata.namespace`).
@@ -75,7 +75,7 @@ spec:
 
 The `*Template` should follow the rules mentioned below:
 
-`spec.providers` should contain the list of required Cluster API providers: `infrastructure`, `bootstrap` and
+`.spec.providers` should contain the list of required Cluster API providers: `infrastructure`, `bootstrap` and
 `control-plane`. As an alternative, the referenced helm chart may contain the specific annotations in the `Chart.yaml`
 (value is a list of providers divided by comma). These fields are only used for validation. For example:
 
@@ -153,7 +153,7 @@ Given compatibility attributes will be then set accordingly in the `.status` fie
 Compatibility contract versions are key-value pairs, where the key is **the name of the provider**,
 and the value is the provider contract version required to be supported by the provider.
 
-    Example with the `spec`:
+    Example with the `.spec`:
 
     ```yaml
     apiVersion: hmc.mirantis.com/v1alpha1
@@ -171,7 +171,7 @@ and the value is the provider contract version required to be supported by the p
         infrastructure-aws: v1beta2
     ```
 
-    Example with the `annotations` in the `Chart.yaml`:
+    Example with the `.annotations` in the `Chart.yaml`:
 
     ```yaml
     annotations:
@@ -186,7 +186,7 @@ and the value is the provider contract version required to be supported by the p
 Kubernetes version to match against the related `ClusterTemplate` objects.
 Given compatibility values will be then set accordingly in the `.status` field.
 
-    Example with the `spec`:
+    Example with the `.spec`:
 
     ```yaml
     apiVersion: hmc.mirantis.com/v1alpha1

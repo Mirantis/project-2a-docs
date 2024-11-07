@@ -1,14 +1,14 @@
 # AWS Hosted control plane deployment
 
-This section covers setting up for a K0smotron hosted control plane on AWS.
+This section covers setting up for a k0smotron hosted control plane on AWS.
 
 ## Prerequisites
 
 -   Management Kubernetes cluster (v1.28+) deployed on AWS with HMC installed on it
 -   Default storage class configured on the management cluster
--   VPC id for the worker nodes
+-   VPC ID for the worker nodes
 -   Subnet ID which will be used along with AZ information
--   AMI id which will be used to deploy worker nodes
+-   AMI ID which will be used to deploy worker nodes
 
 Keep in mind that all control plane components for all managed clusters will
 reside in the management cluster.
@@ -31,30 +31,30 @@ and other provider controllers will need a large amount of resources to run.
 **VPC ID**
 
 ```bash
-    kubectl get awscluster <cluster name> -o go-template='{{.spec.network.vpc.id}}'
+    kubectl get awscluster <cluster-name> -o go-template='{{.spec.network.vpc.id}}'
 ```
 
 **Subnet ID**
 
 ```bash
-    kubectl get awscluster <cluster name> -o go-template='{{(index .spec.network.subnets 0).resourceID}}'
+    kubectl get awscluster <cluster-name> -o go-template='{{(index .spec.network.subnets 0).resourceID}}'
 ```
 
 **Availability zone**
 
 ```bash
-    kubectl get awscluster <cluster name> -o go-template='{{(index .spec.network.subnets 0).availabilityZone}}'
+    kubectl get awscluster <cluster-name> -o go-template='{{(index .spec.network.subnets 0).availabilityZone}}'
 ```
 
 **Security group**
 ```bash
-    kubectl get awscluster <cluster name> -o go-template='{{.status.networkStatus.securityGroups.node.id}}'
+    kubectl get awscluster <cluster-name> -o go-template='{{.status.networkStatus.securityGroups.node.id}}'
 ```
 
 **AMI id**
 
 ```bash
-    kubectl get awsmachinetemplate <cluster name>-worker-mt -o go-template='{{.spec.template.spec.ami.id}}'
+    kubectl get awsmachinetemplate <cluster-name>-worker-mt -o go-template='{{.spec.template.spec.ami.id}}'
 ```
 
 If you want to use different VPCs/regions for your management or managed

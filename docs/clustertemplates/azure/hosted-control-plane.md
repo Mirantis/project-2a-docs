@@ -22,43 +22,43 @@ If you deployed your Azure Kubernetes cluster using Cluster API Provider Azure
 **Location**
 
 ```bash
-kubectl get azurecluster <cluster name> -o go-template='{{.spec.location}}'
+kubectl get azurecluster <cluster-name> -o go-template='{{.spec.location}}'
 ```
 
 **Subscription ID**
 
 ```bash
-kubectl get azurecluster <cluster name> -o go-template='{{.spec.subscriptionID}}'
+kubectl get azurecluster <cluster-name> -o go-template='{{.spec.subscriptionID}}'
 ```
 
 **Resource group**
 
 ```bash
-kubectl get azurecluster <cluster name> -o go-template='{{.spec.resourceGroup}}'
+kubectl get azurecluster <cluster-name> -o go-template='{{.spec.resourceGroup}}'
 ```
 
 **vnet name**
 
 ```bash
-kubectl get azurecluster <cluster name> -o go-template='{{.spec.networkSpec.vnet.name}}'
+kubectl get azurecluster <cluster-name> -o go-template='{{.spec.networkSpec.vnet.name}}'
 ```
 
 **Subnet name**
 
 ```bash
-kubectl get azurecluster <cluster name> -o go-template='{{(index .spec.networkSpec.subnets 1).name}}'
+kubectl get azurecluster <cluster-name> -o go-template='{{(index .spec.networkSpec.subnets 1).name}}'
 ```
 
 **Route table name**
 
 ```bash
-kubectl get azurecluster <cluster name> -o go-template='{{(index .spec.networkSpec.subnets 1).routeTable.name}}'
+kubectl get azurecluster <cluster-name> -o go-template='{{(index .spec.networkSpec.subnets 1).routeTable.name}}'
 ```
 
 **Security group name**
 
 ```bash
-kubectl get azurecluster <cluster name> -o go-template='{{(index .spec.networkSpec.subnets 1).securityGroup.name}}'
+kubectl get azurecluster <cluster-name> -o go-template='{{(index .spec.networkSpec.subnets 1).securityGroup.name}}'
 ```
 
 
@@ -112,7 +112,7 @@ spec:
 Then you can render it using the command:
 
 ```bash
-kubectl get azurecluster <management cluster name> -o go-template="$(cat template.yaml)"
+kubectl get azurecluster <management-cluster-name> -o go-template="$(cat template.yaml)"
 ```
 
 ## Cluster creation
@@ -124,7 +124,7 @@ the `AzureCluster` object due to current limitations (see
 To do so you need to execute the following command:
 
 ```bash
-kubectl patch azurecluster <cluster name> --type=merge --subresource status --patch 'status: {ready: true}'
+kubectl patch azurecluster <cluster-name> --type=merge --subresource status --patch 'status: {ready: true}'
 ```
 
 ## Important notes on the cluster deletion
@@ -139,7 +139,7 @@ which will cause cluster deletion to stuck indefinitely.
 To place finalizer you can execute the following command:
 
 ```bash
-kubectl patch azurecluster <cluster name> --type=merge --patch 'metadata: {finalizers: [manual]}'
+kubectl patch azurecluster <cluster-name> --type=merge --patch 'metadata: {finalizers: [manual]}'
 ```
 
 When finalizer is placed you can remove the `ManagedCluster` as usual. Check that
