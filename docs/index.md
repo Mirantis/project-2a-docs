@@ -26,7 +26,7 @@ The main components of 2A include:
 
     Deployment and life-cycle management of Kubernetes clusters, including configuration, updates, and other CRUD operations.
 
- * **Cluster State Management (SMC)**
+ * **State Management Controller (SMC)**
 
     Installation and life-cycle management of [beach-head services](glossary.md#beach-head-services), policy, Kubernetes API configurations and more.
 
