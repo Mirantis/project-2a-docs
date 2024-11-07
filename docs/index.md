@@ -22,7 +22,7 @@ easy, repeatable cluster deployments and life cycle management.
 
 The main components of 2A include:
 
- * **Hybrid Multi Cluster (HMC) Management**
+ * **Hybrid Multi-Cluster Controller (HMC)**
 
     Deployment and life-cycle management of Kubernetes clusters, including configuration, updates, and other CRUD operations.
 
