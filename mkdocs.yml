@@ -49,6 +49,7 @@ extra_css:
 plugins:
   - search
   - mermaid2
+  - glightbox
 
 #extra:
 #  generator: false
@@ -56,6 +57,7 @@ plugins:
 # Page tree
 
 markdown_extensions:
+  - attr_list
   - callouts
   - tables
   - pymdownx.details
