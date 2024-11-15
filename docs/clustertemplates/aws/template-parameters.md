@@ -72,3 +72,22 @@ spec:
       enabled: true
 ...
 ```
+
+## EKS templates
+
+EKS templates use the parameters similar to AWS and resulting EKS `ManagedCluster` can look like this:
+
+```yaml
+apiVersion: hmc.mirantis.com/v1alpha1
+kind: ManagedCluster
+metadata:
+  name: cluster-1
+spec:
+  template: aws-eks-0-0-2
+  credential: aws-cred
+  config:
+    sshKeyName: foobar
+    region: ${AWS_REGION}
+    workersNumber: 1
+...
+```

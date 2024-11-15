@@ -15,6 +15,10 @@ You need a Kubernetes cluster with [2A installed](2a-installation.md).
 The AWS `clusterawsadm` tool is required to bootstrap an AWS Account. Install it
 by following the [AWS clusterawsadm installation instructions](https://github.com/kubernetes-sigs/cluster-api-provider-aws?tab=readme-ov-file#clusterawsadm).
 
+## EKS Deployment
+
+- Additional EKS steps and verifications are described in [EKS clusters](../eks/main.md).
+
 ### Configure AWS IAM
 
 Before launching a cluster on AWS, you need to set up your AWS infrastructure
