@@ -93,5 +93,7 @@ nav:
         - Hosted Control Plane: clustertemplates/vsphere/hosted-control-plane.md
   - Credentials:
       - Overview: credential/main.md
+  - RBAC:
+      - Overview: rbac/roles.md
   - Architecture: architecture.md
   - Glossary: glossary.md
