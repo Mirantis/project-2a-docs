@@ -84,11 +84,11 @@ following:
    where charts have been pushed.
 
       ```bash
-      helm install hmc oci://<chart-repository> \
+      helm install hmc oci://<chart-repository>/hmc \
         --version <hmc-version> \
         -n hmc-system \
-        --create-namespace
-        --set controller.defaultRegistryURL="<chart-repository>"
+        --create-namespace \
+        --set controller.defaultRegistryURL="oci://<chart-repository>"
       ```
 
 5. Within the `spec:` for your desired `ManagedCluster` object, specify the
