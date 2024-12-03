@@ -62,7 +62,7 @@ Following is an interpolated example.
 >   name: my-managed-cluster
 >   namespace: hmc-system
 > spec:
->   template: aws-standalone-cp-0-0-2
+>   template: aws-standalone-cp-0-0-3
 >   credential: aws-credential
 >   dryRun: true
 >   config:
@@ -161,7 +161,7 @@ corresponding `Template` status) and automatically have `.spec.dryRun` set to
 >       iamInstanceProfile: nodes.cluster-api-provider-aws.sigs.k8s.io
 >       instanceType: ""
 >     workersNumber: 2
->   template: aws-standalone-cp-0-0-2
+>   template: aws-standalone-cp-0-0-3
 >   credential: aws-credential
 >   dryRun: true
 > ```
@@ -181,7 +181,7 @@ Here is an example of a `ManagedCluster` object that passed the validation:
 >   name: my-managed-cluster
 >   namespace: hmc-system
 > spec:
->   template: aws-standalone-cp-0-0-2
+>   template: aws-standalone-cp-0-0-3
 >   credential: aws-credential
 >   config:
 >     region: us-east-2

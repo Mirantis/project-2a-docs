@@ -150,7 +150,7 @@ metadata:
   name: my-vsphere-managedcluster1
   namespace: hmc-system
 spec:
-  template: <template-name> # The name of the template you want to use from above
+  template: vsphere-standalone-cp-0-0-3
   credential: vsphere-cluster-identity-cred
   config:
     vsphere:
