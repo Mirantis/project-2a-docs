@@ -198,7 +198,7 @@ metadata:
   name: my-azure-managedcluster1
   namespace: hmc-system
 spec:
-  template: azure-standalone-cp-0-0-2
+  template: azure-standalone-cp-0-0-3
   credential: azure-cluster-identity-cred
   config:
     location: "westus" # Select your desired Azure Location (find it via `az account list-locations -o table`)
