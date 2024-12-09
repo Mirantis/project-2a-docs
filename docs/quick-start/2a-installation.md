@@ -72,20 +72,13 @@ The output is similar to:
 
 ```bash
 NAME                                VALID
-aws-eks-0-0-1                       true
-aws-hosted-cp-0-0-2                 true
-aws-standalone-cp-0-0-1             true
-aws-standalone-cp-0-1-0             true
+aws-eks-0-0-2                       true
+aws-hosted-cp-0-0-3                 true
+aws-standalone-cp-0-0-3             true
 azure-hosted-cp-0-0-3               true
-azure-standalone-cp-0-0-1           true
-azure-standalone-cp-0-1-0           true
-remote-single-standalone-cp-0-1-4   true
-remote-single-standalone-cp-0-1-5   true
-remote-single-standalone-cp-0-1-6   true
-remote-single-standalone-cp-0-1-7   true
-remote-single-standalone-cp-0-1-8   true
-vsphere-hosted-cp-0-0-2             true
-vsphere-standalone-cp-0-0-2         true
+azure-standalone-cp-0-0-3           true
+vsphere-hosted-cp-0-0-3             true
+vsphere-standalone-cp-0-0-3         true
 ```
 
 ### Next Step
