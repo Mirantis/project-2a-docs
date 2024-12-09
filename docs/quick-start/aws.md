@@ -166,7 +166,7 @@ metadata:
   name: my-aws-managedcluster1
   namespace: hmc-system
 spec:
-  template: aws-standalone-cp-0-0-2 # The name of the template you want to use from above
+  template: aws-standalone-cp-0-0-3 # The name of the template you want to use from above
   credential: aws-cluster-identity-cred
   config:
     region: us-west-2
