@@ -1,9 +1,12 @@
 # Architecture
 
+## Project 2A System Architecture
 
-Below is a diagram that provides an overview of how Project 2A works.
+The following diagram provides a simplified architectural overview to help you visualize the flow of the key components:
 
-## Architectural Overview
+![2A architecture](assets/architecture.png){.architecture-light-mode}
+
+## Component Relationship Overview
 
 ```mermaid
 ---

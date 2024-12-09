@@ -41,3 +41,13 @@
   .md-typeset h3 {
   font-weight: 200;
 }
+
+/* Image for Light Mode */
+img.architecture-light-mode {
+  content: url('../assets/architecture_light.png');
+}
+
+/* Image for Dark Mode */
+[data-md-color-scheme="slate"] img.architecture-light-mode {
+  content: url('../assets/architecture_dark.png');
+}
