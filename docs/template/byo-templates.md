@@ -1,25 +1,23 @@
 # Bring your own Templates
 
-Here are the instructions on how to bring your own Template to HMC:
+This guide outlines the steps to bring your own Template to HMC.
 
-1. Create a [HelmRepository](https://fluxcd.io/flux/components/source/helmrepositories/) object containing the URL to the
-external Helm repository. Label it with `hmc.mirantis.com/managed: "true"`.
-2. Create a [HelmChart](https://fluxcd.io/flux/components/source/helmcharts/) object referencing the `HelmRepository` as a
-`sourceRef`, specifying the name and version of your Helm chart. Label it with `hmc.mirantis.com/managed: "true"`.
-3. Create a `ClusterTemplate`, `ServiceTemplate` or `ProviderTemplate` object referencing this helm chart in
-`.spec.helm.chartRef`. `chartRef` is a field of the
-[CrossNamespaceSourceReference](https://fluxcd.io/flux/components/helm/api/v2/#helm.toolkit.fluxcd.io/v2.CrossNamespaceSourceReference) kind.
-For `ClusterTemplate` and `ServiceTemplate` configure the namespace where this template should reside
-(`metadata.namespace`).
+## Create a Source Object
 
-> NOTE:
-> `ClusterTemplate` and `ServiceTemplate` objects should reside in the same namespace as the `ManagedCluster`
-> referencing them. The `ManagedCluster` can't reference the Template from another namespace (the creation request will
-> be declined by the admission webhook). All `ClusterTemplates` and `ServiceTemplates` shipped with HMC reside in the
-> system namespace (defaults to `hmc-system`). To get the instructions on how to distribute Templates along multiple
-> namespaces, read [Template Life Cycle Management](main.md#template-life-cycle-management).
+> INFO:
+> Skip this step if you're using an existing source.
 
-Here is an example of a custom `ClusterTemplate` with the `HelmChart` reference:
+A source object defines where the Helm chart is stored. The source can be one of the following types:
+[HelmRepository](https://fluxcd.io/flux/components/source/helmrepositories/),
+[GitRepository](https://fluxcd.io/flux/components/source/gitrepositories/) or
+[Bucket](https://fluxcd.io/flux/components/source/buckets/).
+
+> NOTES:
+> 1. The source object must exist in the same namespace as the Template.
+> 2. For cluster-scoped `ProviderTemplates`, the referenced source must reside in the **system** namespace
+> (default: `hmc-system`).
+
+### Example: Custom Source Object with HelmRepository Kind
 
 ```yaml
 apiVersion: source.toolkit.fluxcd.io/v1
@@ -27,8 +25,6 @@ kind: HelmRepository
 metadata:
   name: custom-templates-repo
   namespace: hmc-system
-  labels:
-    hmc.mirantis.com/managed: "true"
 spec:
   insecure: true
   interval: 10m0s
@@ -37,29 +33,53 @@ spec:
   url: oci://ghcr.io/external-templates-repo/charts
 ```
 
-```yaml
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmChart
-metadata:
-  name: custom-template-chart
-  namespace: hmc-system
-  labels:
-    hmc.mirantis.com/managed: "true"
-spec:
-  interval: 5m0s
-  chart: custom-template-chart-name
-  reconcileStrategy: ChartVersion
-  sourceRef:
-    kind: HelmRepository
-    name: custom-templates-repo
-  version: 0.2.0
-```
+## Create the Template
+
+Create a Template object of the desired type:
+
+* `ClusterTemplate`
+* `ServiceTemplate`
+* `ProviderTemplate`
+
+For `ClusterTemplate` and `ServiceTemplate` configure the namespace where this template should reside
+(`metadata.namespace`).
+The custom Template requires a helm chart definition in the `.spec.helm.chartSpec` field of the
+[HelmChartSpec](https://fluxcd.io/flux/components/source/api/v1/#source.toolkit.fluxcd.io/v1.HelmChartSpec) kind or
+the reference to already existing `HelmChart` object in `.spec.helm.chartRef`.
+
+> NOTE:
+> `spec.helm.chartSpec` and `spec.helm.chartRef` are mutually exclusive.
+
+To automatically create the `HelmChart` for the `Template`, configure the following custom helm chart parameters
+under `spec.helm.chartSpec`:
+
+| **Field**                                                                                                                                                   | **Description**                                                                                                              |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| `sourceRef`<br/>[LocalHelmChartSourceReference](https://fluxcd.io/flux/components/source/api/v1/#source.toolkit.fluxcd.io/v1.LocalHelmChartSourceReference) | Reference to the source object (e.g., `HelmRepository`, `GitRepository`, or `Bucket`) in the same namespace as the Template. |
+| `chart`<br/>string                                                                                                                                          | The name of the Helm chart available in the source.                                                                          |
+| `version`<br/>string                                                                                                                                        | Version is the chart version semver expression. Defaults to **latest** when omitted.                                         |
+| `interval`<br/>[Kubernetes meta/v1.Duration](https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#Duration)                                              | The frequency at which the `sourceRef` is checked for updates. Defaults to **10 minutes**.                                   |
+
+For the complete list of the `HelmChart` parameters, see:
+[HelmChartSpec](https://fluxcd.io/flux/components/source/api/v1/#source.toolkit.fluxcd.io/v1.HelmChartSpec).
+
+The controller will automatically create the `HelmChart` object based on the chartSpec defined in
+`.spec.helm.chartSpec`.
+
+> NOTE:
+> `ClusterTemplate` and `ServiceTemplate` objects should reside in the same namespace as the `ManagedCluster`
+> referencing them. The `ManagedCluster` can't reference the Template from another namespace (the creation request will
+> be declined by the admission webhook). All `ClusterTemplates` and `ServiceTemplates` shipped with HMC reside in the
+> system namespace (defaults to `hmc-system`). To get the instructions on how to distribute Templates along multiple
+> namespaces, read [Template Life Cycle Management](main.md#template-life-cycle-management).
+
+### Example: Custom ClusterTemplate with the Chart Definition to Create a new HelmChart
 
 ```yaml
 apiVersion: hmc.mirantis.com/v1alpha1
 kind: ClusterTemplate
 metadata:
-  name: os-k0smotron
+  name: custom-template
   namespace: hmc-system
 spec:
   providers:
@@ -67,19 +87,42 @@ spec:
     - control-plane-k0smotron
     - infrastructure-openstack
   helm:
-    chartRef:
-      kind: HelmChart
-      name: custom-template-chart
-      namespace: default
+    chartSpec:
+      chart: os-k0smotron
+      sourceRef:
+        kind: HelmRepository
+        name: custom-templates-repo
 ```
 
-The `*Template` should follow the rules mentioned below:
+### Example: Custom ClusterTemplate Referencing an Existing HelmChart object
 
-`.spec.providers` should contain the list of required Cluster API providers: `infrastructure`, `bootstrap` and
-`control-plane`. As an alternative, the referenced helm chart may contain the specific annotations in the `Chart.yaml`
-(value is a list of providers divided by comma). These fields are only used for validation. For example:
+```yaml
+apiVersion: hmc.mirantis.com/v1alpha1
+kind: ClusterTemplate
+metadata:
+  name: custom-template
+  namespace: hmc-system
+spec:
+  helm:
+    chartRef:
+      kind: HelmChart
+      name: custom-chart
+```
 
-`ClusterTemplate` spec:
+
+## Required and exposed providers definition
+
+The `*Template` object must specify the list of Cluster API providers that are either **required** (for
+`ClusterTemplates` and `ServiceTemplates`) or **exposed** (for `ProviderTemplates`). These providers include
+`infrastructure`, `bootstrap`, and `control-plane`. This can be achieved in two ways:
+
+1. By listing the providers explicitly in the `spec.providers` field.
+2. Alternatively, by including specific annotations in the `Chart.yaml` of the referenced Helm chart.
+The annotations should list the providers as a `comma-separated` value.
+
+For example:
+
+`Template` spec:
 
 ```yaml
 spec:
