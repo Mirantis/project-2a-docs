@@ -97,5 +97,7 @@ nav:
       - Overview: credential/main.md
   - RBAC:
       - Overview: rbac/roles.md
-  - Architecture: architecture.md
+  - Architecture: 
+      - Overview: architecture/architecture.md
+      - 2A initialisation process: architecture/initialisation.md
   - Glossary: glossary.md
