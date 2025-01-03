@@ -97,7 +97,7 @@ the correct [Credential object](#credential-object).
 Since this feature depends on the provider some notes and clarifications
 are needed for each provider.
 
-> NOTE: 
+> NOTE:
 > More detailed research notes can be found [here](https://github.com/Mirantis/hmc/issues/293).
 
 #### AWS
@@ -117,3 +117,11 @@ same namespace with `Cluster` object. By design they should be referenced in the
 
 In Project 2A these Secrets aren't used and will not be added to the
 `cloud-init`, but engineers can access them unrestricted.
+
+#### OpenStack
+
+For OpenStack, CAPO relies on a clouds.yaml file.
+In Project 2A, you provide this file in a Kubernetes Secret that references OpenStack credentials
+(ideally application credentials for enhanced security). During reconciliation, HMC
+automatically generates the cloud-config required by OpenStack’s cloud-controller-manager.
+<!-- To DO : Add a reference link to hmc's doc -->
